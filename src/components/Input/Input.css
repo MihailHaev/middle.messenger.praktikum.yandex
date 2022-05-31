@@ -1,0 +1,30 @@
+.field {
+    position: relative;
+}
+  
+.field .input {
+    display: block;
+    min-width: 300px;
+    padding: 16px 14px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    border: #0F1B07 solid 2px;
+    color: #0F1B07;
+    outline: none;
+}
+  
+.field .label {
+    position: absolute;
+    top: 16px;
+    left: 14px;
+    color: #0F1B07;
+    font-size: 24px;
+}
+  
+.field .input:focus + .label {
+    top: 3px;
+    left: 5px;
+    font-size: 12px; 
+}

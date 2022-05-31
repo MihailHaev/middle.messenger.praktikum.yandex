@@ -1,0 +1,27 @@
+.search-form {
+    &__content {
+
+    }
+    &__input {
+        border: none;
+        border-bottom: 1px solid tomato;
+    }
+    &__button {
+        background-color: rgb(150, 170, 150);
+        border: none;
+    }
+}
+
+.btn {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.btn {
+    &__dark {
+        background-color: black;
+        color: white;
+    }
+}
