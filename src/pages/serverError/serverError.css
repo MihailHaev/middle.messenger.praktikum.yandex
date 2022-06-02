@@ -1,0 +1,15 @@
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 40px;
+
+    &__code {
+        font-size: 64px;
+    }
+
+    &__text {
+        font-size: 32px;
+    }
+}

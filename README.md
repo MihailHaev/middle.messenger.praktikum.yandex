@@ -1,1 +1,9 @@
-Ссылка на пул реквест: [Sprint 1](https://github.com/MihailHaev/middle.messenger.praktikum.yandex/pull/1)
+## Netlify
+
+- [Домен](https://mellifluous-dodol-c108e6.netlify.app/)
+
+## Установка
+
+- `npm i` — установка стабильной версии,
+- `npm start` — запуск версии для разработчика,
+- `npm run build` — создание билда
