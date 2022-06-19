@@ -2,11 +2,6 @@
 
 - [Домен](https://mellifluous-dodol-c108e6.netlify.app/)
 
-## Установка
-
-- `npm i` — установка стабильной версии,
-
-
 ## Команды
 
 - `npm run dev` - запуск express сервера
