@@ -1,0 +1,11 @@
+.message {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  padding: var(--small-margin-bottom);
+}
+
+.messaage-personal {
+  margin-left: auto;
+  text-align: end;
+}

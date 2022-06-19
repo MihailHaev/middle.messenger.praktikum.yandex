@@ -5,5 +5,12 @@
 ## Установка
 
 - `npm i` — установка стабильной версии,
-- `npm start` — запуск версии для разработчика,
-- `npm run build` — создание билда
+
+
+## Команды
+
+- `npm run dev` - запуск express сервера
+- `npm run build` - сборка билда
+- `npm start` - запуск локальной разработки
+- `npm run lint` - запуск проверки eslint и stylelint
+- `npm run lint:fix` - запуск автофикса eslint и stylelint
