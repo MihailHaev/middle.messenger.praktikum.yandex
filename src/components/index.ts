@@ -3,7 +3,6 @@ export * from './Chat';
 export * from './ErrorMessage';
 export * from './Input';
 export * from './DefaultInput';
-export * from './Layout';
 export * from './Link';
 export * from './Title';
 export * from './Message';

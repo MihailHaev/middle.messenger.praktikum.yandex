@@ -25,7 +25,7 @@ export class AuthPage extends Block {
 
   render() {
     return `
-      <div class="page-wrapper">
+      <div class="auth">
         {{{Title text="Авторизация" className="auth-title"}}}
         {{#each inputs}}
           {{#with this}}

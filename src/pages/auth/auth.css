@@ -1,17 +1,17 @@
-.page-wrapper {
-    width: 520px;
-    margin: 0 auto;
-    padding: var(--medium-margin-bottom);
+.auth {
+  width: 520px;
+  margin: 0 auto;
+  padding: var(--medium-margin-bottom);
 }
 
 .auth-input {
-    margin-bottom: var(--small-margin-bottom);
+  margin-bottom: var(--small-margin-bottom);
 }
 
 .auth-title {
-    margin-bottom: var(--medium-margin-bottom);
+  margin-bottom: var(--medium-margin-bottom);
 }
 
 .auth-button {
-    margin-bottom: var(--medium-margin-bottom);
+  margin-bottom: var(--medium-margin-bottom);
 }
