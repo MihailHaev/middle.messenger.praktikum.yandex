@@ -18,6 +18,5 @@
     background-color: var(--white);
     border: var(--main-black) solid 2px;
     color: var(--main-black);
-    outline: none;
   }
 }

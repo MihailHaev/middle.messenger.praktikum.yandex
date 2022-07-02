@@ -12,17 +12,7 @@ function registerComponent<Props = any>(Component: BlockConstructable<Props>) {
     Component.name,
     // eslint-disable-next-line func-names
     function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
-      if (!data.root.children) {
-        // eslint-disable-next-line no-param-reassign
-        data.root.children = {};
-      }
-
-      if (!data.root.refs) {
-        // eslint-disable-next-line no-param-reassign
-        data.root.refs = {};
-      }
-
-      const { children, refs } = data.root;
+      const { children = {}, refs = {} } = data.root;
 
       /**
        * Костыль для того, чтобы передавать переменные
@@ -30,12 +20,13 @@ function registerComponent<Props = any>(Component: BlockConstructable<Props>) {
        */
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (Object.keys(hash) as any).forEach((key: keyof Props) => {
-        if (this[key] != null && typeof this[key] === 'string') {
+        if (`{{${key}}}` === hash[key]) {
           // eslint-disable-next-line no-param-reassign
-          hash[key] = hash[key].replace(new RegExp(`{{${key}}}`, 'i'), this[key]);
+          hash[key] = this[key];
         }
       });
 
+      console.log('hash: ', hash);
       const component = new Component(hash);
 
       children[component.id] = component;

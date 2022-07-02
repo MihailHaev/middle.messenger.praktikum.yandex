@@ -23,14 +23,10 @@ export class DefaultInput extends Block {
     id,
     ...props
   }: DefaultInputProps) {
-    const correctType = type === '{{type}}' ? InputTypes.text : type;
-    const currectValue = value === '{{value}}' ? '' : value;
-    const currectId = id === '{{id}}' ? '' : id;
-
     super({
-      type: correctType,
-      value: currectValue,
-      id: currectId,
+      type: type || InputTypes.text,
+      value,
+      id,
       ...props,
       events: { input: onChange, blur: onBlur, focus: onFocus },
     });

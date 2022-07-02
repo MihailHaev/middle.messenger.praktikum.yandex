@@ -63,8 +63,8 @@ export class ChatsPage extends Block {
             {{/each}}
           </div>
           <div class="message-controls">
-            {{{Input placeholder="Сообщение" id="message" className="chat-input" validationRule="${VALUE_VALIDATOR_TYPES.name}"}}}
-            {{{Button text="Отправить" className="chat-button" onClick=handleClick}}}
+            {{{Input placeholder="Сообщение" id="message" className="chat__input" validationRule="${VALUE_VALIDATOR_TYPES.name}"}}}
+            {{{Button text="Отправить" className="chat__button" onClick=handleClick}}}
           </div>
         </div>
       </div>

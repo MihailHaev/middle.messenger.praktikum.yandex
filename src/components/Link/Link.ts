@@ -10,11 +10,7 @@ export interface LinkProps {
 export class Link extends Block {
   constructor(props: LinkProps) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onClick = (e: MouseEvent) => {
-      // const router = new Router();
-      // router.go(this.props.to);
-      // e.preventDefault();
-    };
+    const onClick = (e: MouseEvent) => {};
 
     super({ ...props, events: { click: onClick } });
   }

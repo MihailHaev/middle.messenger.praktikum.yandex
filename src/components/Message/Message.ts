@@ -20,7 +20,7 @@ export class Message extends Block {
     return `
       <div class="message{{#if isPersonal}} messaage-personal{{/if}}">
         <span class="message__text">{{text}}</span>
-        <span class="message__time">{{time}}</span>
+        <time class="message__time">{{time}}</time>
       </div>
     `;
   }

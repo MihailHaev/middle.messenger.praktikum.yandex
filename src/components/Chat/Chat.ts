@@ -23,7 +23,7 @@ export class Chat extends Block {
           <span class="chat-info__name">{{name}}</span>
           <span class="chat-info__message">{{message}}</span>
         </div>
-        <span class="chat__timestamp">{{time}}</span>
+        <time class="chat__timestamp">{{time}}</time>
       </div>
     `;
   }

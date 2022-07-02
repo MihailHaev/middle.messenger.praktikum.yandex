@@ -57,7 +57,7 @@ export class Block<P = any> {
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
-  _registerEvents(eventBus: EventBus<Events>) {
+  private _registerEvents(eventBus: EventBus<Events>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -81,14 +81,14 @@ export class Block<P = any> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  _componentDidMount(props: P) {
+  private _componentDidMount(props: P) {
     this.componentDidMount(props);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
   componentDidMount(props: P) {}
 
-  _componentDidUpdate(oldProps: P, newProps: P) {
+  private _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -122,7 +122,7 @@ export class Block<P = any> {
     return this._element;
   }
 
-  _render() {
+  private _render() {
     const fragment = this._compile();
 
     this._removeEvents();
@@ -151,7 +151,7 @@ export class Block<P = any> {
     return this.element!;
   }
 
-  _makePropsProxy(props: P): P {
+  private _makePropsProxy(props: P): P {
     return new Proxy(props as unknown as object, {
       get(target: Record<string, unknown>, prop: string) {
         const value = target[prop];
@@ -170,7 +170,7 @@ export class Block<P = any> {
     }) as unknown as P;
   }
 
-  _removeEvents() {
+  private _removeEvents() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { events } = this.props as any;
 
@@ -183,7 +183,7 @@ export class Block<P = any> {
     });
   }
 
-  _addEvents() {
+  private _addEvents() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { events } = this.props as any;
 
@@ -196,7 +196,7 @@ export class Block<P = any> {
     });
   }
 
-  _compile(): DocumentFragment {
+  private _compile(): DocumentFragment {
     const fragment = document.createElement('template');
 
     /**
