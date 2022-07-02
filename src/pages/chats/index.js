@@ -1,1 +1,0 @@
-export { chats } from './chats';

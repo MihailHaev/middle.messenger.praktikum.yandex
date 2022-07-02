@@ -2,10 +2,10 @@
 
 - [Домен](https://mellifluous-dodol-c108e6.netlify.app/)
 
-## Установка
+## Команды
 
-- `npm i` — установка стабильной версии,
-- `npm start` — запуск версии для разработчика,
-- `npm run build` — создание билда
-
-Ссылка на пулл реквест [Sprint 2](https://github.com/MihailHaev/middle.messenger.praktikum.yandex/pull/3)
+- `npm run dev` - запуск express сервера
+- `npm run build` - сборка билда
+- `npm start` - запуск локальной разработки
+- `npm run lint` - запуск проверки eslint и stylelint
+- `npm run lint:fix` - запуск автофикса eslint и stylelint

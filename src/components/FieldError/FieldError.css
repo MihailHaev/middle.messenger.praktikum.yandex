@@ -1,0 +1,8 @@
+.field {
+  &__error {
+    position: absolute;
+    color: var(--error-color);
+    left: 16px;
+    font-size: 12px;
+  }
+}

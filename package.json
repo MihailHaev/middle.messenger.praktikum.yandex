@@ -3,23 +3,58 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "npm run build && node server.js",
-    "build": "parcel build static/index.html --no-cache --public-url ./"
+    "start": "parcel static/index.html --no-source-maps --no-cache -p 3000",
+    "dev": "node server.js",
+    "build": "parcel build static/index.html --no-cache --public-url ./",
+    "lint": "npm run eslint && npm run stylelint",
+    "eslint": "eslint --ext .ts,.js ./",
+    "stylelint": "stylelint ./**/*.css",
+    "lint:fix": "npm run eslint:fix && stylelint:fix",
+    "eslint:fix": "eslint --ext .ts,.js ./ --fix",
+    "stylelint:fix": "stylelint --fix ./**/*.css"
+  },
+  "alias": {
+    "src": "./src"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@anikin/parcel-transformer-handlebars-precompile": "1.0.1",
-    "autoprefixer": "10.4.7",
-    "express": "4.18.1",
+    "@anikin/parcel-transformer-handlebars": "1.0.9",
+    "@types/node": "17.0.41",
+    "@typescript-eslint/eslint-plugin": "5.27.1",
+    "@typescript-eslint/parser": "5.27.1",
+    "eslint": "8.17.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-import-resolver-parcel": "1.10.6",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jsx-a11y": "6.5.1",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "7.30.0",
     "parcel": "2.5.0",
+    "parcel-plugin-handlebars-precompile": "1.0.2",
     "postcss": "8.4.14",
     "postcss-modules": "4.3.1",
     "postcss-preset-env": "7.6.0",
-    "precss": "4.0.0"
+    "prettier": "2.6.2",
+    "stylelint": "14.9.0",
+    "stylelint-config-standard": "26.0.0",
+    "typescript": "4.7.3"
   },
   "dependencies": {
-    "handlebars": "4.7.7"
+    "handlebars": "4.7.7",
+    "nanoid": "4.0.0",
+    "express": "4.18.1",
+    "autoprefixer": "10.4.7",
+    "precss": "4.0.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": true,
+    "quoteProps": "preserve"
   }
 }
