@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   padding: var(--small-margin-bottom);
+  cursor: pointer;
 
   &-info {
     display: flex;
@@ -15,5 +16,9 @@
     &__message {
       font-size: 13px;
     }
+  }
+
+  &__button {
+    border-radius: 0;
   }
 }

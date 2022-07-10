@@ -4,26 +4,33 @@ import { formateTime } from '../../utils';
 import './Chat.css';
 
 interface ChatProps {
-  name: string;
+  title: string;
   message: string;
   timestamp: number;
+  id: number;
+  unread_count: number;
+  onClick: (id: number) => void;
 }
 
 export class Chat extends Block {
-  constructor({ timestamp, ...props }: ChatProps) {
+  constructor({ id, timestamp, onClick, ...props }: ChatProps) {
     const time = formateTime(timestamp);
 
-    super({ time, ...props });
+    const handleClick = () => {
+      onClick(id);
+    };
+
+    super({ time, ...props, events: { click: handleClick } });
   }
 
   protected render(): string {
     return `
       <div class="chat">
         <div class="chat-info">
-          <span class="chat-info__name">{{name}}</span>
-          <span class="chat-info__message">{{message}}</span>
+          <span class="chat-info__name">{{title}}</span>
+          {{#if message}}<span class="chat-info__message">{{message}}</span>{{/if}}
         </div>
-        <time class="chat__timestamp">{{time}}</time>
+        {{#if time}}<time class="chat__timestamp">{{time}}</time>{{/if}}
       </div>
     `;
   }

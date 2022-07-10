@@ -15,7 +15,9 @@ type Options = {
   headers?: Headers;
   timeout?: number;
   method?: Methods;
-  data?: Document | XMLHttpRequestBodyInit | null | undefined;
+  credentials?: string;
+  mode?: string;
+  data?: Record<string, unknown> | XMLHttpRequestBodyInit;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,24 +51,63 @@ function queryStringify(data: unknown): string | never {
 }
 
 export class HTTPTransport {
-  get = (url: string, options: Options = {}) => {
-    return this._request(url, { ...options, method: Methods.get }, options.timeout);
+  APIEndpoint: string;
+
+  constructor(endpoint: string) {
+    this.APIEndpoint = endpoint;
+  }
+
+  get = <T>(path: string, options: Options = {}) => {
+    return this._request<T>(
+      `${this.APIEndpoint}${path}`,
+      {
+        ...options,
+        method: Methods.get,
+      },
+      options.timeout,
+    );
   };
 
-  post = (url: string, options: Options = {}) => {
-    return this._request(url, { ...options, method: Methods.post }, options.timeout);
+  post = <T>(path: string, options: Options = {}) => {
+    return this._request<T>(
+      `${this.APIEndpoint}${path}`,
+      {
+        ...options,
+        method: Methods.post,
+      },
+      options.timeout,
+    );
   };
 
-  put = (url: string, options: Options = {}) => {
-    return this._request(url, { ...options, method: Methods.put }, options.timeout);
+  put = <T>(path: string, options: Options = {}) => {
+    return this._request<T>(
+      `${this.APIEndpoint}${path}`,
+      {
+        ...options,
+        method: Methods.put,
+      },
+      options.timeout,
+    );
   };
 
-  delete = (url: string, options: Options = {}) => {
-    return this._request(url, { ...options, method: Methods.delete }, options.timeout);
+  delete = <T>(path: string, options: Options = {}) => {
+    return this._request<T>(
+      `${this.APIEndpoint}${path}`,
+      {
+        ...options,
+        method: Methods.delete,
+      },
+      options.timeout,
+    );
   };
 
-  private _request = (url: string, options: Options = {}, timeout = 5000) => {
-    const { headers = {}, method, data } = options;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint, @typescript-eslint/no-explicit-any
+  private _request = <T extends any>(
+    url: string,
+    options: Options = {},
+    timeout = 5000,
+  ): Promise<T> => {
+    const { headers, method, data } = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -79,24 +120,35 @@ export class HTTPTransport {
 
       xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
 
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
+      if (isObject(headers)) {
+        Object.keys(headers).forEach((key) => {
+          xhr.setRequestHeader(key, headers[key]);
+        });
+      } else {
+        xhr.setRequestHeader('content-type', 'application/json');
+      }
 
       xhr.onload = () => {
-        resolve(xhr);
+        try {
+          resolve(JSON.parse(xhr.response));
+        } catch (_err) {
+          resolve(xhr.response);
+        }
       };
 
       xhr.onabort = reject;
       xhr.onerror = reject;
-
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
+      xhr.withCredentials = true;
+
       if (isGet || !data) {
         xhr.send();
+      } else if (headers && headers?.['content-type'] !== 'application/json') {
+        xhr.send(data as XMLHttpRequestBodyInit);
       } else {
-        xhr.send(data);
+        xhr.send(JSON.stringify(data));
       }
     });
   };

@@ -1,13 +1,8 @@
 import Handlebars, { HelperOptions } from 'handlebars';
-import { Block } from './Block';
+import { Block, BlockClass } from './Block';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface BlockConstructable<Props = any> {
-  new (props: Props): Block;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function registerComponent<Props = any>(Component: BlockConstructable<Props>) {
+function registerComponent<Props = any>(Component: BlockClass<Props>) {
   Handlebars.registerHelper(
     Component.name,
     // eslint-disable-next-line func-names
@@ -26,7 +21,6 @@ function registerComponent<Props = any>(Component: BlockConstructable<Props>) {
         }
       });
 
-      console.log('hash: ', hash);
       const component = new Component(hash);
 
       children[component.id] = component;
@@ -48,7 +42,7 @@ export const registerComponents = (Сomponents: { [key: string]: unknown }) => {
     const Сomponent = Сomponents[componentKey];
 
     if (Object.getPrototypeOf(Сomponent) === Block) {
-      registerComponent(Сomponent as BlockConstructable);
+      registerComponent(Сomponent as BlockClass);
     }
   });
 };

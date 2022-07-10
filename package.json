@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "parcel static/index.html --no-source-maps --no-cache -p 3000",
+    "start": "parcel static/index.html --no-source-maps --no-cache -p $(grep PORT .env | cut -d '=' -f2)",
     "dev": "node server.js",
     "build": "parcel build static/index.html --no-cache --public-url ./",
     "lint": "npm run eslint && npm run stylelint",
