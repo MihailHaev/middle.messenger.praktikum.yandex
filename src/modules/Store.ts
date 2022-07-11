@@ -49,4 +49,3 @@ export class Store extends EventBus {
     }
   }
 }
-

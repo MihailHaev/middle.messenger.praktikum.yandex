@@ -33,4 +33,3 @@ export const getInputsData = (inputsData: InputCreateData[]): PageData | null =>
     return accum;
   }, {});
 };
-

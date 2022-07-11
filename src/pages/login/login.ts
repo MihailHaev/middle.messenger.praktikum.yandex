@@ -45,4 +45,3 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 export const LoginPage = connect(LoginPageDefault, mapStateToProps);
-

@@ -14,4 +14,3 @@ export const inputs = [
     validationRule: VALUE_VALIDATOR_TYPES.required,
   },
 ];
-

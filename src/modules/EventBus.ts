@@ -16,7 +16,7 @@ export class EventBus<
     this.listeners[event]?.push(callback);
   }
 
-  off(event: E, callback: Listener<M[E]>) {
+  off(event: E, callback?: Listener<M[E]>) {
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }

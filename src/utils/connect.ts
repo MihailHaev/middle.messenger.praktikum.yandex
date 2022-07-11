@@ -34,4 +34,3 @@ export const withUser = (Component: BlockClass) =>
 
 export const withLoading = (Component: BlockClass) =>
   connect(Component, (state: AppState) => ({ isLoading: state.isLoading }));
-

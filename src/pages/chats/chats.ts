@@ -1,72 +1,71 @@
 import { Block } from '../../modules';
-import { VALUE_VALIDATOR_TYPES, logInputsData } from '../../utils';
+import { VALUE_VALIDATOR_TYPES, getInputsData, connect } from '../../utils';
+import { logout, getChats, createChat, deleteChat } from '../../services';
+import { routes } from '../../router';
 
 import './chats.css';
 
-const chats = [
-  {
-    name: 'Alexxx',
-    message: 'test1',
-    timestamp: 1655401269326,
-  },
-  {
-    name: 'Mihhail',
-    message: 'test1',
-    timestamp: 1655401269326,
-  },
-];
-
-const messages = [
-  {
-    text: 'test1',
-    isPersonal: false,
-    timestamp: 1655401338853,
-  },
-  {
-    text: 'test2',
-    isPersonal: true,
-    timestamp: 1655401269326,
-  },
-];
-
 export class ChatsPageDefault extends Block {
-  constructor() {
-    super({
-      chats,
-      messages,
-      handleClick: logInputsData,
-    });
+  static componentName = 'Chats Page';
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(props: any) {
+    window.store.dispatch(getChats);
+
+    super({ ...props });
+
+    this.state = {
+      ...this.state,
+      handleLogoutClick: this.handleLogoutClick,
+      handleChatClick: this.handleChatClick,
+      handleAddChat: this.handleAddChat,
+      handleRemoveChat: this.handleRemoveChat,
+    };
   }
+
+  handleLogoutClick = () => {
+    window.store.dispatch(logout);
+  };
+
+  handleAddChat = () => {
+    const newChatData = getInputsData([
+      {
+        id: 'chat-title',
+        validationRule: VALUE_VALIDATOR_TYPES.required,
+      },
+    ]) as { ['chat-title']: string } | null;
+
+    if (!newChatData) {
+      return;
+    }
+
+    window.store.dispatch(createChat, newChatData['chat-title']);
+  };
+
+  handleRemoveChat = (id: number) => {
+    window.store.dispatch(deleteChat, id);
+  };
+
+  handleChatClick = (chatId: number) => {
+    window.router.go(routes.chat.path, chatId);
+  };
 
   render() {
     return `
-    <div class="chats">
+    <div class="chats-page">
+    {{#if isLoading}}{{{Loading  isLoading=isLoading }}}{{/if}}
       <div class="chats-side">
-        {{{Input placeholder="Поиск" className="search-input"}}}
+        <div class="message-controls">
+          {{{Field placeholder="Добавить чат" className="search-input" id="chat-title"}}}
+          {{{Button text="Добавить" className="chat-page__button" onClick=handleAddChat}}}
+        </div>
         {{#each chats}}
           {{#with this}}
-            {{{Chat name="{{name}}" message="{{message}}" timestamp=timestamp}}}
+            {{{Chat id="{{id}}" title="{{title}}" message="{{message}}" unreadCount=unread_count onClick=@root.handleChatClick onRemoveClick=@root.handleRemoveChat}}}
           {{/with}}
         {{/each}}
-      </div>
-      <div class="messages-side">
-        <div class="messages-side__chat-info">
-          <span class="chat-name">Alexxx</span>
-          <span class="chat-online">Онлайн</span>
-        </div>
-        <div class="messages-side__chat-inner">
-          <div class="messages">
-            {{#each messages}}
-              {{#with this}}
-                {{{Message text="{{text}}" isPersonal=isPersonal timestamp=timestamp}}}
-              {{/with}}
-            {{/each}}
-          </div>
-          <div class="message-controls">
-            {{{Input placeholder="Сообщение" id="message" className="chat__input" validationRule="${VALUE_VALIDATOR_TYPES.name}"}}}
-            {{{Button text="Отправить" className="chat__button" onClick=handleClick}}}
-          </div>
-        </div>
+        {{{Button text="Выйти" onClick=handleLogoutClick}}}
+        {{{Link text='Настройки' to="${routes.settings.path}" }}}
       </div>
     </div>
     `;

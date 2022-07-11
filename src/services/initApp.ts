@@ -17,4 +17,3 @@ export async function initApp(dispatch: Dispatch<PlainObject>) {
     dispatch({ isLoading: false, isAuthChecked: true });
   }
 }
-

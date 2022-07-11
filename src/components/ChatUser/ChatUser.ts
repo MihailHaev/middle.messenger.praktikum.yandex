@@ -34,4 +34,3 @@ export class ChatUser extends Block {
     `;
   }
 }
-

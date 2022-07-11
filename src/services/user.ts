@@ -98,4 +98,3 @@ export const searchUsers = async (
     dispatch({ isLoading: false });
   }
 };
-

@@ -1,4 +1,5 @@
-import { isObject, PlainObject } from './isObject';
+/* eslint-disable no-continue */
+import { isObject, PlainObject, isArrayOrObject } from './isObject';
 
 export const isEqual = (lhs: PlainObject, rhs: PlainObject): boolean => {
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {
@@ -6,20 +7,20 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject): boolean => {
   }
 
   // eslint-disable-next-line no-restricted-syntax
-  for (const [key, leftValue] of Object.entries(lhs)) {
+  for (const [key, value] of Object.entries(lhs)) {
     const rightValue = rhs[key];
-    if (isObject(leftValue) && isObject(rightValue)) {
-      if (!isEqual(leftValue, rightValue)) return false;
-    }
-
-    if (Array.isArray(leftValue) && Array.isArray(rightValue)) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [index, value] of leftValue.entries()) {
-        if (value !== rightValue[index]) return false;
+    if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
+      if (isObject(value) !== isObject(rightValue)) {
+        return false;
       }
+      if (isEqual(value as PlainObject, rightValue as PlainObject)) {
+        continue;
+      }
+
+      return false;
     }
 
-    if (leftValue !== rightValue) {
+    if (value !== rightValue) {
       return false;
     }
   }

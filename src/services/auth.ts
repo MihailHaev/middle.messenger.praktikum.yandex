@@ -80,4 +80,3 @@ export const register = async (
     dispatch({ isLoading: false });
   }
 };
-

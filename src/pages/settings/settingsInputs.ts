@@ -55,4 +55,3 @@ export const passwordInputs: InputCreateData[] = [
     validationRule: VALUE_VALIDATOR_TYPES.password,
   },
 ];
-
