@@ -11,3 +11,11 @@ export const isObject = (value: unknown): value is PlainObject => {
     !Array.isArray(value)
   );
 };
+
+export const isArray = (value: unknown): value is [] => {
+  return Array.isArray(value);
+};
+
+export const isArrayOrObject = (value: unknown): value is [] | PlainObject => {
+  return isObject(value) || isArray(value);
+};

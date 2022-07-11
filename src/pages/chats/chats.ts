@@ -29,7 +29,7 @@ const messages = [
   },
 ];
 
-export class ChatsPage extends Block {
+export class ChatsPageDefault extends Block {
   constructor() {
     super({
       chats,
@@ -72,3 +72,9 @@ export class ChatsPage extends Block {
     `;
   }
 }
+const mapStateToProps = (state: AppState) => ({
+  isLoading: state.isLoading,
+  chats: state.chats,
+});
+
+export const ChatsPage = connect(ChatsPageDefault, mapStateToProps);

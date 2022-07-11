@@ -26,3 +26,8 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject): boolean => {
 
   return true;
 };
+
+// isEqual(a, b); // true
+// isEqual({ a: 1 }, {a: 2}); // false
+// isEqual({ b: 1 }, {a: 2}); // false
+// isEqual({ b: 1 }, {a: 1}); // false

@@ -24,3 +24,8 @@ export const merge = (lhs: PlainObject, rhs: PlainObject): PlainObject => {
     { ...lhs, ...rhs },
   );
 };
+
+// const lhs = {a: {b: 1}};
+// const rhs = {a: {c: 2}};
+
+// const result = {...lhs, ...rhs} // {a: {c: 2}}
