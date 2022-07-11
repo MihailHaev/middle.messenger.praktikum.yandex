@@ -1,10 +1,15 @@
 import Handlebars, { HelperOptions } from 'handlebars';
-import { Block, BlockClass } from './Block';
+import { Block } from './Block';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function registerComponent<Props = any>(Component: BlockClass<Props>) {
+export interface BlockConstructable<Props = any> {
+  new (props: Props): Block;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function registerComponent<Props = any>(Component: BlockConstructable<Props>) {
   Handlebars.registerHelper(
-    Component.componentName as string,
+    Component.name,
     // eslint-disable-next-line func-names
     function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
       const { children = {}, refs = {} } = data.root;
@@ -21,6 +26,7 @@ function registerComponent<Props = any>(Component: BlockClass<Props>) {
         }
       });
 
+      console.log('hash: ', hash);
       const component = new Component(hash);
 
       children[component.id] = component;
@@ -38,14 +44,11 @@ function registerComponent<Props = any>(Component: BlockClass<Props>) {
 
 export const registerComponents = (Сomponents: { [key: string]: unknown }) => {
   Object.keys(Сomponents).forEach((componentKey) => {
+    // eslint-disable-next-line import/namespace
     const Сomponent = Сomponents[componentKey];
 
     if (Object.getPrototypeOf(Сomponent) === Block) {
-      if (!(Сomponent as BlockClass).componentName) {
-        (Сomponent as BlockClass).componentName = componentKey;
-      }
-
-      registerComponent(Сomponent as BlockClass);
+      registerComponent(Сomponent as BlockConstructable);
     }
   });
 };

@@ -7,14 +7,7 @@ export const isObject = (value: unknown): value is PlainObject => {
     typeof value === 'object' &&
     value !== null &&
     value.constructor === Object &&
-    Object.prototype.toString.call(value) === '[object Object]'
+    Object.prototype.toString.call(value) === '[object Object]' &&
+    !Array.isArray(value)
   );
-};
-
-export const isArray = (value: unknown): value is [] => {
-  return Array.isArray(value);
-};
-
-export const isArrayOrObject = (value: unknown): value is [] | PlainObject => {
-  return isObject(value) || isArray(value);
 };

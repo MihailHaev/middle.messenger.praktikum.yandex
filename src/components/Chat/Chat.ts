@@ -4,41 +4,26 @@ import { formateTime } from '../../utils';
 import './Chat.css';
 
 interface ChatProps {
-  title: string;
+  name: string;
   message: string;
   timestamp: number;
-  id: number;
-  unreadCount: number;
-  onClick: (id: number) => void;
-  onRemoveClick: (id: number) => void;
 }
 
 export class Chat extends Block {
-  constructor({ id, timestamp, onClick, onRemoveClick, ...props }: ChatProps) {
+  constructor({ timestamp, ...props }: ChatProps) {
     const time = formateTime(timestamp);
 
-    const handleClick = (event: Event) => {
-      event.stopPropagation();
-      onClick(id);
-    };
-
-    const handleRemovedClick = (event: Event) => {
-      event.stopPropagation();
-      onRemoveClick(id);
-    };
-
-    super({ time, onRemoveClick: handleRemovedClick, ...props, events: { click: handleClick } });
+    super({ time, ...props });
   }
 
   protected render(): string {
     return `
       <div class="chat">
         <div class="chat-info">
-          <span class="chat-info__name">{{title}}</span>
-          {{#if message}}<span class="chat-info__message">{{message}}</span>{{/if}}
+          <span class="chat-info__name">{{name}}</span>
+          <span class="chat-info__message">{{message}}</span>
         </div>
-        {{#if time}}<time class="chat__timestamp">{{time}}</time>{{/if}}
-        {{{Button className="chat__button" text="x" onClick=onRemoveClick}}}
+        <time class="chat__timestamp">{{time}}</time>
       </div>
     `;
   }
