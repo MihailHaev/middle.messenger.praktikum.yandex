@@ -42,4 +42,3 @@ export const userAPI = {
   searchUsers: (data: SearchedUsersRequestData) =>
     httpTransport.post<SearchedUsersResponseData>('/search', { data }),
 };
-

@@ -37,4 +37,3 @@ export const authAPI = {
 
   logout: () => httpTransport.post('/logout'),
 };
-
