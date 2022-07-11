@@ -4,7 +4,7 @@ import { Block, BlockClass } from './Block';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function registerComponent<Props = any>(Component: BlockClass<Props>) {
   Handlebars.registerHelper(
-    Component.name,
+    Component.componentName as string,
     // eslint-disable-next-line func-names
     function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
       const { children = {}, refs = {} } = data.root;
@@ -38,10 +38,13 @@ function registerComponent<Props = any>(Component: BlockClass<Props>) {
 
 export const registerComponents = (Сomponents: { [key: string]: unknown }) => {
   Object.keys(Сomponents).forEach((componentKey) => {
-    // eslint-disable-next-line import/namespace
     const Сomponent = Сomponents[componentKey];
 
     if (Object.getPrototypeOf(Сomponent) === Block) {
+      if (!(Сomponent as BlockClass).componentName) {
+        (Сomponent as BlockClass).componentName = componentKey;
+      }
+
       registerComponent(Сomponent as BlockClass);
     }
   });

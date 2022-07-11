@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "parcel static/index.html --no-source-maps --no-cache -p $(grep PORT .env | cut -d '=' -f2)",
-    "dev": "node server.js",
+    "dev": "parcel static/index.html --no-source-maps --no-cache -p $(grep PORT .env | cut -d '=' -f2)",
+    "start": "node server.js",
     "build": "parcel build static/index.html --no-cache --public-url ./",
+    "build:start": "npm run build && npm run start",
     "lint": "npm run eslint && npm run stylelint",
     "eslint": "eslint --ext .ts,.js ./",
     "stylelint": "stylelint ./**/*.css",

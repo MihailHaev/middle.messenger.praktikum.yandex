@@ -1,5 +1,5 @@
 .login {
-  position: absolute;
+  position: relative;
   width: 520px;
   margin: 0 auto;
   padding: var(--medium-margin-bottom);
