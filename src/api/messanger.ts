@@ -21,6 +21,7 @@ export class WebSocketMessanger {
   }
 
   onOpen(): void {
+    window.store.dispatch({ messages: [] });
     this.send({
       content: '0',
       type: 'get old',

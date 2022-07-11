@@ -15,8 +15,9 @@ import { routes } from '../../router';
 
 import './chat.css';
 
-let isTokenGetted = false;
-let isMessangerStarted = false;
+let tokenGettedChatId: Nullable<number> = null;
+let messangerStartedChatId: Nullable<number> = null;
+let lastChatToken: Nullable<number> = null;
 
 export class ChatPageDefault extends Block {
   static componentName = `Chat Page`;
@@ -46,11 +47,16 @@ export class ChatPageDefault extends Block {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   componentDidUpdate(_oldProps: any, newProps: any): boolean {
-    if (newProps.user?.id && newProps.chat?.id && !isTokenGetted) {
-      isTokenGetted = true;
-      window.store.dispatch(getChatToken, { userId: newProps.user.id, chatId: newProps.chat.id });
-    } else if (newProps.user?.id && newProps.chat?.id && newProps.token && !isMessangerStarted) {
-      isMessangerStarted = true;
+    const userId = newProps.user?.id;
+    const chatId = newProps.chat?.id;
+    const { token } = newProps;
+
+    if (userId && chatId && tokenGettedChatId !== chatId) {
+      tokenGettedChatId = chatId;
+      window.store.dispatch(getChatToken, { userId, chatId });
+    } else if (userId && chatId && token !== lastChatToken && messangerStartedChatId !== chatId) {
+      messangerStartedChatId = chatId;
+      lastChatToken = token;
       window.store.dispatch(startMessanger);
     }
     return true;

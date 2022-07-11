@@ -63,15 +63,16 @@ type ChatTokenResponse = {
 const httpTransport = new HTTPTransport(`${process.env.API_ENDPOINT}/chats`);
 
 export const chatsAPI = {
-  getChats: (data?: ChatsRequestData) => httpTransport.get<ChatsResponseData>('', { data }),
+  getChats: (data?: ChatsRequestData) =>
+    httpTransport.get<ChatsResponseData>('', data ? { data } : undefined),
 
   createChat: (data: NewChatRequestData) => httpTransport.post<NewChatResponseData>('', { data }),
 
   deleteChat: (data: RemovedChatRequestData) =>
     httpTransport.delete<RemovedChatResponseData>('', { data }),
 
-  getChatUsers: (data: ChatUsersRequestData) =>
-    httpTransport.get<ChatUsersResponseData>(`/${data.id}/users`, { data }),
+  getChatUsers: ({ id }: ChatUsersRequestData) =>
+    httpTransport.get<ChatUsersResponseData>(`/${id}/users`),
 
   getChatNewMessagesCount: (id: number) =>
     httpTransport.get<ChatNewMessagesCountResponseData>(`/new/${id}`),

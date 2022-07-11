@@ -43,7 +43,8 @@ export function initRouter(router: Router, store: Store) {
     router.use(route.path, () => {
       const { isAuthChecked } = store.getState();
       const isAuthorized = Boolean(store.getState().user);
-      const isChatSelected = Boolean(router.getHash);
+      const isChatSelected = Boolean(router.getHash());
+
       const currentPage = store.getState().page as Nullable<Pages>;
 
       let pathToGo: NullOrString = null;
@@ -63,7 +64,7 @@ export function initRouter(router: Router, store: Store) {
         isFirstAfterAuthChecked = false;
       }
 
-      if (!isChatSelected && pathToGo === routes.chat.path) {
+      if (!isChatSelected && route.path === routes.chat.path) {
         pathToGo = routes.chats.path;
         pageToDispatch = Pages.Chats;
       }
