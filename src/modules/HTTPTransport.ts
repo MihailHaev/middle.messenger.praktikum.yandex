@@ -1,4 +1,4 @@
-import { isArrayOrObject, isObject } from '../utils';
+import { isObject } from '../utils';
 
 interface Headers {
   [key: string]: string;
@@ -15,9 +15,7 @@ type Options = {
   headers?: Headers;
   timeout?: number;
   method?: Methods;
-  credentials?: string;
-  mode?: string;
-  data?: Record<string, unknown> | XMLHttpRequestBodyInit;
+  data?: Document | XMLHttpRequestBodyInit | null | undefined;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,65 +49,24 @@ function queryStringify(data: unknown): string | never {
 }
 
 export class HTTPTransport {
-  APIEndpoint: string;
-
-  constructor(endpoint: string) {
-    this.APIEndpoint = endpoint;
-  }
-
-  get = <T>(path: string, options: Options = {}) => {
-    const { data, ...otherOptions } = options;
-
-    return this._request<T>(
-      `${this.APIEndpoint}${path}${data ? queryStringify(data) : ''}`,
-      {
-        ...otherOptions,
-        method: Methods.get,
-      },
-      options.timeout,
-    );
+  get = (url: string, options: Options = {}) => {
+    return this._request(url, { ...options, method: Methods.get }, options.timeout);
   };
 
-  post = <T>(path: string, options: Options = {}) => {
-    return this._request<T>(
-      `${this.APIEndpoint}${path}`,
-      {
-        ...options,
-        method: Methods.post,
-      },
-      options.timeout,
-    );
+  post = (url: string, options: Options = {}) => {
+    return this._request(url, { ...options, method: Methods.post }, options.timeout);
   };
 
-  put = <T>(path: string, options: Options = {}) => {
-    return this._request<T>(
-      `${this.APIEndpoint}${path}`,
-      {
-        ...options,
-        method: Methods.put,
-      },
-      options.timeout,
-    );
+  put = (url: string, options: Options = {}) => {
+    return this._request(url, { ...options, method: Methods.put }, options.timeout);
   };
 
-  delete = <T>(path: string, options: Options = {}) => {
-    return this._request<T>(
-      `${this.APIEndpoint}${path}`,
-      {
-        ...options,
-        method: Methods.delete,
-      },
-      options.timeout,
-    );
+  delete = (url: string, options: Options = {}) => {
+    return this._request(url, { ...options, method: Methods.delete }, options.timeout);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint, @typescript-eslint/no-explicit-any
-  private _request = <T extends any>(
-    url: string,
-    options: Options = {},
-    timeout = 5000,
-  ): Promise<T> => {
-    const { headers, method, data } = options;
+  private _request = (url: string, options: Options = {}, timeout = 5000) => {
+    const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -118,38 +75,28 @@ export class HTTPTransport {
       }
 
       const xhr = new XMLHttpRequest();
+      const isGet = method === Methods.get;
 
-      xhr.open(method, url);
+      xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
 
-      if (isObject(headers)) {
-        Object.keys(headers).forEach((key) => {
-          xhr.setRequestHeader(key, headers[key]);
-        });
-      } else if (isArrayOrObject(data)) {
-        xhr.setRequestHeader('content-type', 'application/json');
-      }
+      Object.keys(headers).forEach((key) => {
+        xhr.setRequestHeader(key, headers[key]);
+      });
 
       xhr.onload = () => {
-        try {
-          resolve(JSON.parse(xhr.response));
-        } catch (_err) {
-          resolve(xhr.response);
-        }
+        resolve(xhr);
       };
 
       xhr.onabort = reject;
       xhr.onerror = reject;
+
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
-      xhr.withCredentials = true;
-
-      if (!data) {
+      if (isGet || !data) {
         xhr.send();
-      } else if (isArrayOrObject(data)) {
-        xhr.send(JSON.stringify(data));
       } else {
-        xhr.send(data as XMLHttpRequestBodyInit);
+        xhr.send(data);
       }
     });
   };

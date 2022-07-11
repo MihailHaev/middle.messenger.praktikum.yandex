@@ -7,13 +7,6 @@ interface BlockMeta<P = any> {
   props: P;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface BlockClass<Props = any> {
-  // eslint-disable-next-line no-use-before-define
-  new (props: Props): Block;
-  componentName?: string;
-}
-
 // eslint-disable-next-line no-use-before-define
 type Events = Values<typeof Block.EVENTS>;
 
@@ -44,8 +37,6 @@ export class Block<P = any> {
 
   // eslint-disable-next-line no-use-before-define
   protected refs: { [key: string]: Block } = {};
-
-  public static componentName?: string;
 
   public constructor(props: P) {
     const eventBus = new EventBus<Events>();
@@ -109,9 +100,6 @@ export class Block<P = any> {
   componentDidUpdate(oldProps: P, newProps: P) {
     return true;
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-  componentDidUnmount() {}
 
   setProps = (nextProps: P) => {
     if (!nextProps) {

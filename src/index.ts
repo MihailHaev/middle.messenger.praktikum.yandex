@@ -1,8 +1,15 @@
-import { Router, Store, registerComponents, renderDOM } from './modules';
-import { defaultState } from './store';
-import { initRouter } from './router';
-import { initApp } from './services';
-import { LoginPage } from './pages/login';
+import { renderDOM } from './modules/renderDOM';
+import { registerComponents } from './modules/registerComponent';
+import { route, ROUTES } from './modules/router';
+import {
+  OnboardingPage,
+  AuthPage,
+  RegisterPage,
+  SettingsPage,
+  NotFoundPage,
+  ServerErrorPage,
+  ChatsPage,
+} from './pages';
 import * as Сomponents from './components';
 
 import './app.css';
@@ -10,25 +17,17 @@ import './app.css';
 registerComponents(Сomponents);
 
 document.addEventListener('DOMContentLoaded', () => {
-  const store = new Store(defaultState);
-  const router = new Router();
+  const CurrentPage = route({
+    [ROUTES.onboarding]: OnboardingPage,
+    [ROUTES.auth]: AuthPage,
+    [ROUTES.register]: RegisterPage,
+    [ROUTES.chats]: ChatsPage,
+    [ROUTES.settings]: SettingsPage,
+    [ROUTES.notFound]: NotFoundPage,
+    [ROUTES.serverError]: ServerErrorPage,
+  });
 
-  /**
-   * Помещаем роутер и стор в глобальную область для доступа в хоках with*
-   * @warning Не использовать такой способ на реальный проектах
-   */
-  window.router = router;
-  window.store = store;
+  const App = new CurrentPage({});
 
-  /**
-   * Инициализируем роутер
-   */
-
-  renderDOM(new LoginPage({}), '#app');
-  initRouter(router, store);
-
-  /**
-   * Загружаем данные для приложения
-   */
-  store.dispatch(initApp);
+  renderDOM(App, '#app');
 });

@@ -19,13 +19,8 @@ export const merge = (lhs: PlainObject, rhs: PlainObject): PlainObject => {
           [key]: lhsValue,
         };
       }
-      return { ...accum, [key]: typeof rhsValue !== 'undefined' ? rhsValue : lhsValue };
+      return { ...accum, [key]: rhsValue || lhsValue };
     },
     { ...lhs, ...rhs },
   );
 };
-
-// const lhs = {a: {b: 1}};
-// const rhs = {a: {c: 2}};
-
-// const result = {...lhs, ...rhs} // {a: {c: 2}}

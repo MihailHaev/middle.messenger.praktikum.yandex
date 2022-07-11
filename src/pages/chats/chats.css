@@ -1,5 +1,4 @@
-.chats-page {
-  position: relative;
+.chats {
   display: flex;
   height: 100vh;
 
@@ -10,7 +9,7 @@
   }
 
   &__button {
-    border-radius: 0;
+    width: auto;
   }
 
   .search-input {
@@ -23,7 +22,7 @@
 }
 
 .chats-side {
-  width: 100%;
+  width: 30%;
   padding: var(--small-margin-bottom);
   border-right: 1px solid var(--second-black);
 }
