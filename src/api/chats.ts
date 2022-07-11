@@ -1,22 +1,21 @@
 import { HTTPTransport } from '../modules';
 import { APIError } from './types';
 
-// query
-export type getRequestData = {
+export type ChatsRequestData = {
   offset?: number;
   limit?: number;
   title?: number;
 };
 
-export type CreateRequestData = {
+export type NewChatRequestData = {
   title: string;
 };
 
-export type DeleteRequestData = {
+export type RemovedChatRequestData = {
   chatId: number;
 };
 
-export type UsersRequestData = {
+export type ChatUsersRequestData = {
   id: number;
   offset?: number;
   limit?: number;
@@ -24,67 +23,66 @@ export type UsersRequestData = {
   email?: string;
 };
 
-export type ChangeChatAvatarRequestData = {
+export type ChatAvatarRequestData = {
   chatId: HTMLFormElement;
   avatar: HTMLFormElement;
 };
 
-export type ManipulateUsersRequestData = {
+export type ChangedChatUsersRequestData = {
   users: number[];
   chatId: number;
 };
 
-type GetResponseData = Chat[];
+type ChatsResponseData = Chat[];
 
-type CreateResponseData = Nullable<APIError>;
+type NewChatResponseData = Nullable<APIError>;
 
-type DeleteResponseData = {
+type RemovedChatResponseData = {
   userId: number;
   result: {
-    id: 123;
+    id: number;
     title: string;
     avatar: string;
   };
 };
 
-type UsersResponseData = User[];
+type ChatUsersResponseData = User[];
 
-type getNewMessagesCountResponseData = {
+type ChatNewMessagesCountResponseData = {
   unread_count: number;
 };
 
-type ChangeAvatarResponseData = Chat | APIError;
+type ChatAvatarResponseData = Chat | APIError;
 
-type ManipulateUsersResponseData = Nullable<APIError>;
+type ChangedChatUsersResponseData = Nullable<APIError>;
 
-type getChatTokenResponse = {
+type ChatTokenResponse = {
   token: string;
 };
 
-const request = new HTTPTransport(`${process.env.API_ENDPOINT}/chats`);
+const httpTransport = new HTTPTransport(`${process.env.API_ENDPOINT}/chats`);
 
 export const chatsAPI = {
-  get: (data?: getRequestData) => request.get<GetResponseData>('', { data }),
+  getChats: (data?: ChatsRequestData) => httpTransport.get<ChatsResponseData>('', { data }),
 
-  create: (data: CreateRequestData) => request.post<CreateResponseData>('', { data }),
+  createChat: (data: NewChatRequestData) => httpTransport.post<NewChatResponseData>('', { data }),
 
-  delete: (data: DeleteRequestData) => request.delete<DeleteResponseData>('', { data }),
+  deleteChat: (data: RemovedChatRequestData) =>
+    httpTransport.delete<RemovedChatResponseData>('', { data }),
 
-  getUsers: (data: UsersRequestData) =>
-    request.get<UsersResponseData>(`/${data.id}/users`, { data }),
+  getChatUsers: (data: ChatUsersRequestData) =>
+    httpTransport.get<ChatUsersResponseData>(`/${data.id}/users`, { data }),
 
-  getNewMessagesCount: (id: number) => request.get<getNewMessagesCountResponseData>(`/new/${id}`),
+  getChatNewMessagesCount: (id: number) =>
+    httpTransport.get<ChatNewMessagesCountResponseData>(`/new/${id}`),
 
-  changeAvatar: (data: FormData) =>
-    request.put<ChangeAvatarResponseData>('/avatar', {
-      data,
-      headers: {},
-    }),
+  changeChatAvatar: (data: FormData) =>
+    httpTransport.put<ChatAvatarResponseData>('/avatar', { data }),
 
-  addUsers: (data: ManipulateUsersRequestData) =>
-    request.put<ManipulateUsersResponseData>('/users', { data }),
+  addUsersToChat: (data: ChangedChatUsersRequestData) =>
+    httpTransport.put<ChangedChatUsersResponseData>('/users', { data }),
 
-  deleteUsers: (data: ManipulateUsersRequestData) =>
-    request.delete<ManipulateUsersResponseData>('/users', { data }),
-  getToken: (chatId: number) => request.post<getChatTokenResponse>(`/token/${chatId}`),
+  deleteUsersFromChat: (data: ChangedChatUsersRequestData) =>
+    httpTransport.delete<ChangedChatUsersResponseData>('/users', { data }),
+  getChatToken: (chatId: number) => httpTransport.post<ChatTokenResponse>(`/token/${chatId}`),
 };

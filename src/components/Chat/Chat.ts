@@ -8,19 +8,26 @@ interface ChatProps {
   message: string;
   timestamp: number;
   id: number;
-  unread_count: number;
+  unreadCount: number;
   onClick: (id: number) => void;
+  onRemoveClick: (id: number) => void;
 }
 
 export class Chat extends Block {
-  constructor({ id, timestamp, onClick, ...props }: ChatProps) {
+  constructor({ id, timestamp, onClick, onRemoveClick, ...props }: ChatProps) {
     const time = formateTime(timestamp);
 
-    const handleClick = () => {
+    const handleClick = (event: Event) => {
+      event.stopPropagation();
       onClick(id);
     };
 
-    super({ time, ...props, events: { click: handleClick } });
+    const handleRemovedClick = (event: Event) => {
+      event.stopPropagation();
+      onRemoveClick(id);
+    };
+
+    super({ time, onRemoveClick: handleRemovedClick, ...props, events: { click: handleClick } });
   }
 
   protected render(): string {
@@ -31,6 +38,7 @@ export class Chat extends Block {
           {{#if message}}<span class="chat-info__message">{{message}}</span>{{/if}}
         </div>
         {{#if time}}<time class="chat__timestamp">{{time}}</time>{{/if}}
+        {{{Button className="chat__button" text="x" onClick=onRemoveClick}}}
       </div>
     `;
   }

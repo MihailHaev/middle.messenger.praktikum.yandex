@@ -1,6 +1,6 @@
 import { Block } from '../../modules';
 import { getInputsData, InputCreateData } from '../../utils';
-import { ChangeProfileRequestData, ChangePasswordRequestData } from '../../api';
+import { ChangedUserProfileRequestData, ChangedUserPasswordRequestData } from '../../api';
 import { profileInputs, avatarInput, passwordInputs } from './settingsInputs';
 import { changeProfile, changeAvatar, changePassword } from '../../services';
 import { routes } from '../../router';
@@ -17,13 +17,16 @@ export class SettingsPage extends Block {
 
     Object.entries(user as User).forEach(([key, value]) => {
       const input = inputs.find(({ id }) => id === key);
-      if (!input || !value) return;
+      if (!input || !value) {
+        return;
+      }
+
       input as InputCreateData;
       input.value = value;
     });
 
     const handleChangeProfile = () => {
-      const profileData = getInputsData(profileInputs) as ChangeProfileRequestData | null;
+      const profileData = getInputsData(profileInputs) as ChangedUserProfileRequestData | null;
 
       if (!profileData) {
         return;
@@ -35,7 +38,10 @@ export class SettingsPage extends Block {
     const handleChangeAvatar = () => {
       const avatar = document.getElementById('avatar') as HTMLInputElement;
 
-      if (!avatar || !avatar.files) return;
+      if (!avatar || !avatar.files) {
+        return;
+      }
+
       const avatarData = new FormData();
 
       avatarData.append('avatar', avatar.files[0], 'test.jpg');
@@ -44,7 +50,7 @@ export class SettingsPage extends Block {
     };
 
     const handleChangePassword = () => {
-      const passwordData = getInputsData(passwordInputs) as ChangePasswordRequestData | null;
+      const passwordData = getInputsData(passwordInputs) as ChangedUserPasswordRequestData | null;
 
       if (!passwordData) {
         return;

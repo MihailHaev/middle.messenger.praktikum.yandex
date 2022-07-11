@@ -1,15 +1,20 @@
-import { userAPI, ChangeProfileRequestData, ChangePasswordRequestData, apiHasError } from '../api';
+import {
+  userAPI,
+  ChangedUserProfileRequestData,
+  ChangedUserPasswordRequestData,
+  apiHasError,
+} from '../api';
 import type { Dispatch } from '../modules';
 import type { PlainObject } from '../utils';
 
 export const changeProfile = async (
   dispatch: Dispatch<PlainObject>,
   _state: AppState,
-  action: ChangeProfileRequestData,
+  action: ChangedUserProfileRequestData,
 ) => {
   dispatch({ isLoading: true });
 
-  const response = await userAPI.changeProfile(action);
+  const response = await userAPI.changeUserProfile(action);
 
   if (apiHasError(response)) {
     dispatch({ isLoading: false, profileFormError: response.reason });
@@ -26,7 +31,7 @@ export const changeAvatar = async (
 ) => {
   dispatch({ isLoading: true });
 
-  const response = await userAPI.changeAvatar(action);
+  const response = await userAPI.changeUserAvatar(action);
 
   if (apiHasError(response)) {
     dispatch({ isLoading: false, avatarFormError: response.reason });
@@ -39,11 +44,11 @@ export const changeAvatar = async (
 export const changePassword = async (
   dispatch: Dispatch<PlainObject>,
   _state: AppState,
-  action: ChangePasswordRequestData,
+  action: ChangedUserPasswordRequestData,
 ) => {
   dispatch({ isLoading: true });
 
-  const response = await userAPI.changePassword(action);
+  const response = await userAPI.changeUserPassword(action);
 
   if (apiHasError(response)) {
     dispatch({ isLoading: false, changePasswordFormError: response.reason });
@@ -60,7 +65,7 @@ export const getUser = async (
 ) => {
   dispatch({ isLoading: true });
   try {
-    const response = await userAPI.get(action);
+    const response = await userAPI.getUser(action);
 
     // eslint-disable-next-line no-console
     console.log('response: ', response);
@@ -79,7 +84,7 @@ export const searchUsers = async (
 ) => {
   dispatch({ isLoading: true });
   try {
-    const response = await userAPI.search({
+    const response = await userAPI.searchUsers({
       login: action,
     });
 

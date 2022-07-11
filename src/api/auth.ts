@@ -1,7 +1,7 @@
 import { HTTPTransport } from '../modules';
 import { APIError } from './types';
 
-export type RegisterRequestData = {
+export type RegisteredRequestData = {
   first_name: string;
   second_name: string;
   login: string;
@@ -15,7 +15,7 @@ export type LoginRequestData = {
   password: string;
 };
 
-type RegisterResponseData =
+type RegisteredResponseData =
   | {
       id: number;
     }
@@ -25,14 +25,15 @@ type LoginResponseData = null | APIError;
 
 type MeResponseData = User | APIError;
 
-const request = new HTTPTransport(`${process.env.API_ENDPOINT}/auth`);
+const httpTransport = new HTTPTransport(`${process.env.API_ENDPOINT}/auth`);
 
 export const authAPI = {
-  register: (data: RegisterRequestData) => request.post<RegisterResponseData>('/signup', { data }),
+  register: (data: RegisteredRequestData) =>
+    httpTransport.post<RegisteredResponseData>('/signup', { data }),
 
-  login: (data: LoginRequestData) => request.post<LoginResponseData>('/signin', { data }),
+  login: (data: LoginRequestData) => httpTransport.post<LoginResponseData>('/signin', { data }),
 
-  me: () => request.get<MeResponseData>('/user'),
+  me: () => httpTransport.get<MeResponseData>('/user'),
 
-  logout: () => request.post('/logout'),
+  logout: () => httpTransport.post('/logout'),
 };

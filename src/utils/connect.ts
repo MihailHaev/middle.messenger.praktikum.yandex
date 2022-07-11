@@ -16,7 +16,9 @@ export function connect(Component: BlockClass, mapStateToProps: (state: AppState
       const nextProps = cloneDeep(mapStateToProps(nextState));
       const prevProps = cloneDeep(mapStateToProps(prevState));
 
-      if (isEqual(nextProps, prevProps)) return;
+      if (isEqual(nextProps, prevProps)) {
+        return;
+      }
       // вызываем обновление компонента, передав данные из хранилища
       this.setProps({ ...mapStateToProps(window.store.getState()) });
     };

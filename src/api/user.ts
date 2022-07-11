@@ -1,7 +1,7 @@
 import { HTTPTransport } from '../modules';
 import { APIError } from './types';
 
-export type ChangeProfileRequestData = {
+export type ChangedUserProfileRequestData = {
   first_name: string;
   second_name: string;
   display_name: string;
@@ -10,41 +10,35 @@ export type ChangeProfileRequestData = {
   phone: string;
 };
 
-export type ChangeUserAvatarRequestData = {
-  avatar: FormData;
-};
-
-export type ChangePasswordRequestData = {
+export type ChangedUserPasswordRequestData = {
   oldPassword: string;
   newPassword: string;
 };
 
-export type SearchRequestData = {
+export type SearchedUsersRequestData = {
   login: string;
 };
 
-type ChangeResponseData = User | APIError;
+type ChangedUserResponseData = User | APIError;
 
-type ChangePasswordResponseData = null | APIError;
+type ChangedUserPasswordResponseData = null | APIError;
 
-type SearchResponseData = User[] | APIError;
+type SearchedUsersResponseData = User[] | APIError;
 
-const request = new HTTPTransport(`${process.env.API_ENDPOINT}/user`);
+const httpTransport = new HTTPTransport(`${process.env.API_ENDPOINT}/user`);
 
 export const userAPI = {
-  changeProfile: (data: ChangeProfileRequestData) =>
-    request.put<ChangeResponseData>('/profile', { data }),
+  changeUserProfile: (data: ChangedUserProfileRequestData) =>
+    httpTransport.put<ChangedUserResponseData>('/profile', { data }),
 
-  changeAvatar: (data: FormData) =>
-    request.put<ChangeResponseData>('/profile/avatar', {
-      data,
-      headers: {},
-    }),
+  changeUserAvatar: (data: FormData) =>
+    httpTransport.put<ChangedUserResponseData>('/profile/avatar', { data }),
 
-  changePassword: (data: ChangePasswordRequestData) =>
-    request.put<ChangePasswordResponseData>('/password', { data }),
+  changeUserPassword: (data: ChangedUserPasswordRequestData) =>
+    httpTransport.put<ChangedUserPasswordResponseData>('/password', { data }),
 
-  get: (id: number) => request.get<User>(`/${id}`),
+  getUser: (id: number) => httpTransport.get<User>(`/${id}`),
 
-  search: (data: SearchRequestData) => request.post<SearchResponseData>('/search', { data }),
+  searchUsers: (data: SearchedUsersRequestData) =>
+    httpTransport.post<SearchedUsersResponseData>('/search', { data }),
 };

@@ -74,7 +74,9 @@ export class ChatPageDefault extends Block {
         validationRule: VALUE_VALIDATOR_TYPES.required,
       },
     ]);
-    if (!objWithMessage) return;
+    if (!objWithMessage) {
+      return;
+    }
 
     window.store.dispatch(sendMessage, objWithMessage.message);
   };
@@ -92,7 +94,9 @@ export class ChatPageDefault extends Block {
       },
     ]) as { search: string } | null;
 
-    if (!searchData) return;
+    if (!searchData) {
+      return;
+    }
 
     window.store.dispatch(searchUsers, searchData.search);
   };
@@ -108,15 +112,15 @@ export class ChatPageDefault extends Block {
       <div class="users-side">
         <div class="message-controls">
           {{{Field placeholder="Поиск" className="search-input" id="search"}}}
-          {{{Button text="Найти" className="chat__button" onClick=handleSearch}}}
-          {{{Button text="X" className="chat__button" onClick=handleClearSearch}}}
+          {{{Button text="Найти" className="chat-page__button" onClick=handleSearch}}}
+          {{{Button text="X" className="chat-page__button" onClick=handleClearSearch}}}
         </div>
         {{#each currentRenderUsers}}
           {{#with this}}
             {{{ChatUser id=id firstName=first_name secondName=second_name displayName=display_name role=role onClick=@root.handleUserChatClick isAdd=@root.isUserAdd}}}
           {{/with}}
         {{/each}}
-        {{{Button text="Выйти из чата" className="chat__button" onClick=handleLeaveChat}}}
+        {{{Button text="Выйти из чата" onClick=handleLeaveChat}}}
         {{{Link text='Чаты' to="${routes.chats.path}" }}}
       </div>
       <div class="messages-side">
@@ -134,7 +138,7 @@ export class ChatPageDefault extends Block {
           </div>
           <div class="message-controls">
             {{{Field placeholder="Сообщение" id="message" className="chat__input" validationRule="${VALUE_VALIDATOR_TYPES.name}"}}}
-            {{{Button text="Отправить" className="chat__button" onClick=handleSendMessage}}}
+            {{{Button text="Отправить" className="chat-page__button" onClick=handleSendMessage}}}
           </div>
         </div>
       </div>

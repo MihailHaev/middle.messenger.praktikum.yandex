@@ -1,4 +1,4 @@
-import { isObject } from '../utils';
+import { isArrayOrObject, isObject } from '../utils';
 
 interface Headers {
   [key: string]: string;
@@ -58,10 +58,12 @@ export class HTTPTransport {
   }
 
   get = <T>(path: string, options: Options = {}) => {
+    const { data, ...otherOptions } = options;
+
     return this._request<T>(
-      `${this.APIEndpoint}${path}`,
+      `${this.APIEndpoint}${path}${data ? queryStringify(data) : ''}`,
       {
-        ...options,
+        ...otherOptions,
         method: Methods.get,
       },
       options.timeout,
@@ -116,15 +118,14 @@ export class HTTPTransport {
       }
 
       const xhr = new XMLHttpRequest();
-      const isGet = method === Methods.get;
 
-      xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
+      xhr.open(method, url);
 
       if (isObject(headers)) {
         Object.keys(headers).forEach((key) => {
           xhr.setRequestHeader(key, headers[key]);
         });
-      } else {
+      } else if (isArrayOrObject(data)) {
         xhr.setRequestHeader('content-type', 'application/json');
       }
 
@@ -143,12 +144,12 @@ export class HTTPTransport {
 
       xhr.withCredentials = true;
 
-      if (isGet || !data) {
+      if (!data) {
         xhr.send();
-      } else if (headers && headers?.['content-type'] !== 'application/json') {
-        xhr.send(data as XMLHttpRequestBodyInit);
-      } else {
+      } else if (isArrayOrObject(data)) {
         xhr.send(JSON.stringify(data));
+      } else {
+        xhr.send(data as XMLHttpRequestBodyInit);
       }
     });
   };

@@ -2,9 +2,9 @@
 import {
   chatsAPI,
   apiHasError,
-  getRequestData,
-  UsersRequestData,
-  ManipulateUsersRequestData,
+  ChatsRequestData,
+  ChatUsersRequestData,
+  ChangedChatUsersRequestData,
 } from '../api';
 import type { Dispatch } from '../modules';
 import type { PlainObject } from '../utils';
@@ -12,12 +12,12 @@ import type { PlainObject } from '../utils';
 export const getChats = async (
   dispatch: Dispatch<PlainObject>,
   _state: AppState,
-  action?: getRequestData,
+  action?: ChatsRequestData,
 ) => {
   dispatch({ isLoading: true });
 
   try {
-    const response = await chatsAPI.get(action);
+    const response = await chatsAPI.getChats(action);
 
     dispatch({ isLoading: false, chats: response });
   } catch (err) {
@@ -33,7 +33,7 @@ export const getChat = async (
   dispatch({ isLoading: true });
 
   try {
-    const response = (await chatsAPI.get({})) as Chat[];
+    const response = (await chatsAPI.getChats({})) as Chat[];
 
     const chat = response.find(({ id }) => id === chatId);
 
@@ -51,14 +51,14 @@ export const createChat = async (
   dispatch({ isLoading: true });
 
   try {
-    const response = await chatsAPI.create({ title: action });
+    const response = await chatsAPI.createChat({ title: action });
 
     if (apiHasError(response)) {
       dispatch({ isLoading: false, createChatFormError: response.reason });
       return;
     }
 
-    const responseChats = await chatsAPI.get();
+    const responseChats = await chatsAPI.getChats();
 
     dispatch({ isLoading: false, chats: responseChats });
   } catch (err) {
@@ -74,10 +74,11 @@ export const deleteChat = async (
   dispatch({ isLoading: true });
 
   try {
-    const response = await chatsAPI.delete({ chatId: action });
+    await chatsAPI.deleteChat({ chatId: action });
 
-    // eslint-disable-next-line no-console
-    console.log('response: ', response);
+    const responseChats = await chatsAPI.getChats();
+
+    dispatch({ isLoading: false, chats: responseChats });
   } catch (err) {}
 
   dispatch({ isLoading: false });
@@ -86,12 +87,12 @@ export const deleteChat = async (
 export const getChatUsers = async (
   dispatch: Dispatch<PlainObject>,
   _state: AppState,
-  action: UsersRequestData,
+  action: ChatUsersRequestData,
 ) => {
   dispatch({ isLoading: true });
 
   try {
-    const response = await chatsAPI.getUsers(action);
+    const response = await chatsAPI.getChatUsers(action);
 
     dispatch({ isLoading: false, chatUsers: response });
   } catch (err) {
@@ -107,7 +108,7 @@ export const getNewMessagesChatCount = async (
   dispatch({ isLoading: true });
 
   try {
-    const response = await chatsAPI.getNewMessagesCount(action);
+    const response = await chatsAPI.getChatNewMessagesCount(action);
 
     // eslint-disable-next-line no-console
     console.log('response: ', response);
@@ -124,7 +125,7 @@ export const changeChatAvatar = async (
   dispatch({ isLoading: true });
 
   try {
-    const response = await chatsAPI.changeAvatar(action);
+    const response = await chatsAPI.changeChatAvatar(action);
 
     if (apiHasError(response)) {
       dispatch({ isLoading: false, changeChatAvatarFormError: response.reason });
@@ -141,12 +142,12 @@ export const changeChatAvatar = async (
 export const addUsersToChat = async (
   dispatch: Dispatch<PlainObject>,
   state: AppState,
-  action: ManipulateUsersRequestData,
+  action: ChangedChatUsersRequestData,
 ) => {
   dispatch({ isLoading: true });
 
   try {
-    const response = await chatsAPI.addUsers(action);
+    const response = await chatsAPI.addUsersToChat(action);
 
     if (apiHasError(response)) {
       dispatch({ isLoading: false, addUsersToChatFormError: response.reason });
@@ -164,12 +165,12 @@ export const addUsersToChat = async (
 export const removeUsersFromChat = async (
   dispatch: Dispatch<PlainObject>,
   state: AppState,
-  action: ManipulateUsersRequestData,
+  action: ChangedChatUsersRequestData,
 ) => {
   dispatch({ isLoading: true });
 
   try {
-    const response = await chatsAPI.deleteUsers(action);
+    const response = await chatsAPI.deleteUsersFromChat(action);
 
     if (apiHasError(response)) {
       dispatch({ isLoading: false, removeUsersFromChatFormError: response.reason });
@@ -194,7 +195,7 @@ export const getChatToken = async (
 ) => {
   dispatch({ isLoading: true });
   try {
-    const { token } = await chatsAPI.getToken(action.chatId);
+    const { token } = await chatsAPI.getChatToken(action.chatId);
 
     dispatch({ isLoading: false, chatToken: token });
   } catch (err) {

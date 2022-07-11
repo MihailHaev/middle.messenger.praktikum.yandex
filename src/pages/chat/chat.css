@@ -10,7 +10,7 @@
   }
 
   &__button {
-    width: auto;
+    border-radius: 0;
   }
 
   .search-input {

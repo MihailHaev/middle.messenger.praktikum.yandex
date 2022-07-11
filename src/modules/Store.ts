@@ -30,7 +30,10 @@ export class Store extends EventBus {
   }
 
   public set(nextState: AppState) {
-    if (isEqual(this.state, nextState)) return;
+    if (isEqual(this.state, nextState)) {
+      return;
+    }
+
     const prevState = cloneDeep(this.state) as AppState;
 
     this.state = merge(prevState, nextState) as AppState;
@@ -38,8 +41,7 @@ export class Store extends EventBus {
     this.emit('changed', prevState, nextState);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dispatch(nextStateOrAction: PlainObject | Action<PlainObject>, payload?: any) {
+  dispatch<T>(nextStateOrAction: PlainObject | Action<PlainObject>, payload?: T) {
     if (typeof nextStateOrAction === 'function') {
       nextStateOrAction(this.dispatch.bind(this), this.state, payload);
     } else {

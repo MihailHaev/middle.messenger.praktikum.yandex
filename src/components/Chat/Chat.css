@@ -3,6 +3,9 @@
   justify-content: space-between;
   padding: var(--small-margin-bottom);
   cursor: pointer;
+  border: 1px solid;
+  margin-bottom: 6px;
+  border-radius: 4px;
 
   &-info {
     display: flex;
@@ -19,6 +22,6 @@
   }
 
   &__button {
-    border-radius: 0;
+    width: auto;
   }
 }

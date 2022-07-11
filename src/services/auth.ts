@@ -1,4 +1,4 @@
-import { authAPI, apiHasError, LoginRequestData, RegisterRequestData } from '../api';
+import { authAPI, apiHasError, LoginRequestData, RegisteredRequestData } from '../api';
 import type { Dispatch } from '../modules';
 import { routes } from '../router';
 import type { PlainObject } from '../utils';
@@ -6,11 +6,15 @@ import type { PlainObject } from '../utils';
 export const logout = async (dispatch: Dispatch<PlainObject>) => {
   dispatch({ isLoading: true });
 
-  await authAPI.logout();
+  try {
+    await authAPI.logout();
 
-  dispatch({ isLoading: false, user: null });
+    dispatch({ isLoading: false, user: null });
 
-  window.router.go(routes.login.path);
+    window.router.go(routes.login.path);
+  } catch (err) {
+    dispatch({ isLoading: false });
+  }
 };
 
 export const login = async (
@@ -20,51 +24,59 @@ export const login = async (
 ) => {
   dispatch({ isLoading: true });
 
-  const response = await authAPI.login(action);
+  try {
+    const response = await authAPI.login(action);
 
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false, authFormError: response.reason });
-    return;
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, authFormError: response.reason });
+      return;
+    }
+
+    const responseUser = await authAPI.me();
+
+    dispatch({ isLoading: false, authFormError: null });
+
+    if (apiHasError(responseUser)) {
+      dispatch(logout);
+      return;
+    }
+
+    dispatch({ user: responseUser });
+
+    window.router.go(routes.chats.path);
+  } catch (err) {
+    dispatch({ isLoading: false });
   }
-
-  const responseUser = await authAPI.me();
-
-  dispatch({ isLoading: false, authFormError: null });
-
-  if (apiHasError(responseUser)) {
-    dispatch(logout);
-    return;
-  }
-
-  dispatch({ user: responseUser });
-
-  window.router.go(routes.chats.path);
 };
 
 export const register = async (
   dispatch: Dispatch<PlainObject>,
   _state: AppState,
-  action: RegisterRequestData,
+  action: RegisteredRequestData,
 ) => {
   dispatch({ isLoading: true });
 
-  const response = await authAPI.register(action);
+  try {
+    const response = await authAPI.register(action);
 
-  if (apiHasError(response)) {
-    dispatch({ isLoading: false, registerFormError: response.reason });
-    return;
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, registerFormError: response.reason });
+      return;
+    }
+
+    const responseUser = await authAPI.me();
+
+    dispatch({ isLoading: false, registerFormError: null });
+
+    if (apiHasError(response)) {
+      dispatch(logout);
+      return;
+    }
+
+    dispatch({ user: responseUser as User });
+
+    window.router.go(routes.chats.path);
+  } catch (err) {
+    dispatch({ isLoading: false });
   }
-
-  const responseUser = await authAPI.me();
-
-  dispatch({ isLoading: false, registerFormError: null });
-
-  if (apiHasError(response)) {
-    dispatch(logout);
-    return;
-  }
-
-  dispatch({ user: responseUser as User });
-
-  window.router.go(routes.chats.path);
 };
