@@ -1,6 +1,6 @@
 import { authAPI, apiHasError, LoginRequestData, RegisterRequestData } from '../api';
 import type { Dispatch } from '../modules';
-import { routes } from '../routerr';
+import { routes } from '../router';
 import type { PlainObject } from '../utils';
 
 export const logout = async (dispatch: Dispatch<PlainObject>) => {

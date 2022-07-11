@@ -1,5 +1,5 @@
 import { Block } from '../../modules';
-import { routes } from '../../routerr';
+import { routes } from '../../router';
 
 import './notFound.css';
 

@@ -1,6 +1,6 @@
 import { Router, Store, registerComponents, renderDOM } from './modules';
 import { defaultState } from './store';
-import { initRouter } from './routerr';
+import { initRouter } from './router';
 import { initApp } from './services';
 import { LoginPage } from './pages/login';
 import * as Сomponents from './components';

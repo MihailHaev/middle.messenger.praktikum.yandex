@@ -11,7 +11,7 @@ import {
   startMessanger,
   sendMessage,
 } from '../../services';
-import { routes } from '../../routerr';
+import { routes } from '../../router';
 
 import './chat.css';
 

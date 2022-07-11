@@ -3,7 +3,7 @@ import { getInputsData, InputCreateData } from '../../utils';
 import { ChangeProfileRequestData, ChangePasswordRequestData } from '../../api';
 import { profileInputs, avatarInput, passwordInputs } from './settingsInputs';
 import { changeProfile, changeAvatar, changePassword } from '../../services';
-import { routes } from '../../routerr';
+import { routes } from '../../router';
 
 import './settings.css';
 
