@@ -2,7 +2,7 @@ import { Block } from '../../modules/Block';
 import { getInputsData, connect } from '../../utils';
 import { login } from '../../services';
 import { LoginRequestData } from '../../api';
-import { routes } from '../../router';
+import { routes } from '../../routerr';
 import { inputs } from './loginInputs';
 
 import './login.css';

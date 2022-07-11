@@ -1,7 +1,7 @@
 import { Block } from '../../modules';
 import { getInputsData } from '../../utils';
 import { register } from '../../services';
-import { routes } from '../../router';
+import { routes } from '../../routerr';
 import { RegisterRequestData } from '../../api';
 import { inputs } from './registerInputs';
 
