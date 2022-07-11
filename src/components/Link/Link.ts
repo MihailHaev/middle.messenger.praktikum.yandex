@@ -1,5 +1,4 @@
 import { Block } from '../../modules';
-
 import './Link.css';
 
 export interface LinkProps {
@@ -9,14 +8,16 @@ export interface LinkProps {
 
 export class Link extends Block {
   constructor(props: LinkProps) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onClick = (e: MouseEvent) => {};
+    const onClick = (e: MouseEvent) => {
+      e.preventDefault();
+
+      window.router.go(props.to);
+    };
 
     super({ ...props, events: { click: onClick } });
   }
 
   render() {
-    // language=hbs
-    return `<a class="link{{#if className}} {{className}}{{/if}}" href="{{to}}">{{text}}</a>`;
+    return `<a class="link{{#if className}} {{className}}{{/if}}" href="{{to}}" on>{{text}}</a>`;
   }
 }

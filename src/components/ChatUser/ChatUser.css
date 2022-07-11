@@ -1,0 +1,24 @@
+.chat-user {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--small-margin-bottom);
+  cursor: pointer;
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+
+    &__name {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    &__message {
+      font-size: 13px;
+    }
+  }
+
+  &__button {
+    border-radius: 0;
+  }
+}
