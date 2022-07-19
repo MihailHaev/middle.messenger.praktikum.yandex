@@ -12,10 +12,11 @@
     "eslint:fix": "eslint --ext .ts,.js ./ --fix",
     "stylelint:fix": "stylelint --fix ./**/*.css",
     "clean": "rimraf node_modules/",
+    "check:format": "prettier --write .",
     "check:lint": "eslint --ext .ts,.js ./",
     "check:stylelint": "stylelint ./**/*.css",
-    "check:test": "jest test/",
-    "check": "npm-run-all --parallel check:*"
+    "check": "npm-run-all --parallel check:*",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -37,7 +38,7 @@
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.30.0",
-    "husky": "8.0.1",
+    "husky": "^8.0.0",
     "mocha": "10.0.0",
     "npm-run-all": "4.1.5",
     "parcel": "2.5.0",
@@ -82,7 +83,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run check"
+      "pre-commit": "npm-run-all --parallel check:* && git add ."
     }
   }
 }
