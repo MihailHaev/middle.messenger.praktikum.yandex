@@ -3,11 +3,6 @@ import Handlebars from 'handlebars';
 import { EventBus } from './EventBus';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface BlockMeta<P = any> {
-  props: P;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface BlockClass<Props = any> {
   // eslint-disable-next-line no-use-before-define
   new (props: Props): Block;
@@ -28,8 +23,6 @@ export class Block<P = any> {
 
   public id = nanoid(6);
 
-  private readonly _meta: BlockMeta;
-
   protected _element: Nullable<HTMLElement> = null;
 
   protected readonly props: P;
@@ -49,10 +42,6 @@ export class Block<P = any> {
 
   public constructor(props: P) {
     const eventBus = new EventBus<Events>();
-
-    this._meta = {
-      props,
-    };
 
     this.getStateFromProps(props);
 
@@ -95,7 +84,7 @@ export class Block<P = any> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-  componentDidMount(props: P) {}
+  componentDidMount(_props: P) {}
 
   private _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
@@ -106,7 +95,7 @@ export class Block<P = any> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate(_oldProps: P, _newProps: P) {
     return true;
   }
 
