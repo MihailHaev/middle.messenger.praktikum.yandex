@@ -15,7 +15,7 @@ function registerComponent<Props = any>(Component: BlockClass<Props>) {
        */
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (Object.keys(hash) as any).forEach((key: keyof Props) => {
-        if (`{{${key}}}` === hash[key]) {
+        if (`{{${String(key)}}}` === hash[key]) {
           // eslint-disable-next-line no-param-reassign
           hash[key] = this[key];
         }

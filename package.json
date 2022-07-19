@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "start": "webpack serve --config webpack/dev.config.js",
     "dev": "parcel static/index.html --no-source-maps --no-cache -p $(grep PORT .env | cut -d '=' -f2)",
     "server": "node server.js",
-    "build": "parcel build static/index.html --no-cache --public-url ./",
-    "start": "npm run build && npm run server",
-    "lint": "npm run eslint && npm run stylelint",
-    "eslint": "eslint --ext .ts,.js ./",
-    "stylelint": "stylelint ./**/*.css",
-    "lint:fix": "npm run eslint:fix && stylelint:fix",
+    "build": "webpack --config webpack/prod.config.js",
+    "start:dev:server": "webpack-dev-server --mode development --open",
+    "lint:fix": "npm-run-all --parallel eslint:fix stylelint:fix",
     "eslint:fix": "eslint --ext .ts,.js ./ --fix",
-    "stylelint:fix": "stylelint --fix ./**/*.css"
-  },
-  "alias": {
-    "src": "./src"
+    "stylelint:fix": "stylelint --fix ./**/*.css",
+    "clean": "rimraf node_modules/",
+    "check:lint": "eslint --ext .ts,.js ./",
+    "check:stylelint": "stylelint ./**/*.css",
+    "check:test": "jest test/",
+    "check": "npm-run-all --parallel check:*"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +28,7 @@
     "@typescript-eslint/eslint-plugin": "5.27.1",
     "@typescript-eslint/parser": "5.27.1",
     "chai": "4.3.6",
+    "css-loader": "6.7.1",
     "eslint": "8.17.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "8.5.0",
@@ -36,23 +37,35 @@
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.30.0",
+    "husky": "8.0.1",
     "mocha": "10.0.0",
+    "npm-run-all": "4.1.5",
     "parcel": "2.5.0",
     "parcel-plugin-handlebars-precompile": "1.0.2",
     "postcss": "8.4.14",
-    "postcss-modules": "4.3.1",
-    "postcss-preset-env": "7.6.0",
     "prettier": "2.6.2",
+    "rimraf": "3.0.2",
+    "style-loader": "3.3.1",
     "stylelint": "14.9.0",
     "stylelint-config-standard": "26.0.0",
-    "typescript": "4.7.3"
+    "surge": "0.23.1",
+    "ts-loader": "9.3.1",
+    "typescript": "4.7.3",
+    "webpack-cli": "4.10.0",
+    "webpack-dev-server": "4.9.3",
+    "postcss-loader": "7.0.1"
   },
   "dependencies": {
-    "handlebars": "4.7.7",
-    "nanoid": "4.0.0",
-    "express": "4.18.1",
     "autoprefixer": "10.4.7",
-    "precss": "4.0.0"
+    "dotenv": "16.0.1",
+    "express": "4.18.1",
+    "handlebars": "4.7.7",
+    "html-webpack-plugin": "5.5.0",
+    "mini-css-extract-plugin": "2.6.1",
+    "nanoid": "4.0.0",
+    "precss": "4.0.0",
+    "webpack": "5.73.0",
+    "webpack-merge": "5.8.0"
   },
   "prettier": {
     "singleQuote": true,
@@ -61,5 +74,15 @@
     "tabWidth": 2,
     "semi": true,
     "quoteProps": "preserve"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check"
+    }
   }
 }
