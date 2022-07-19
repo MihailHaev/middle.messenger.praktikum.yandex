@@ -1,4 +1,4 @@
-const trim = (stringToTrim: string, symbolsToTrim?: string): string => {
+export const trim = (stringToTrim: string, symbolsToTrim?: string): string => {
   const arrayOfSymbolsToTrim = symbolsToTrim ? symbolsToTrim.split('') : [' ', '\xA0'];
   let isLeftTrimmed = false;
   let isRightTrimmed = false;
@@ -22,12 +22,10 @@ const trim = (stringToTrim: string, symbolsToTrim?: string): string => {
   return trimmedString;
 };
 
-trim('  abc  '); // => 'abc'
-trim('-_-abc-_-', '_-'); // => 'abc'
-trim('\xA0foo'); // "foo"
-trim('\xA0foo', ' '); // " foo"
-trim('-_-ab c -_-', '_-'); // ab c
+// trim('  abc  '); // => 'abc'
+// trim('-_-abc-_-', '_-'); // => 'abc'
+// trim('\xA0foo'); // "foo"
+// trim('\xA0foo', ' '); // " foo"
+// trim('-_-ab c -_-', '_-'); // ab c
 
-['  foo  ', '  bar  '].map((value) => trim(value)); // => ['foo', 'bar']
-
-export default trim;
+// ['  foo  ', '  bar  '].map((value) => trim(value)); // => ['foo', 'bar']

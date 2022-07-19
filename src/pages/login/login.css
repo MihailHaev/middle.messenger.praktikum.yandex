@@ -1,17 +1,18 @@
-.auth {
+.login {
+  position: relative;
   width: 520px;
   margin: 0 auto;
   padding: var(--medium-margin-bottom);
 }
 
-.auth-input {
+.login-input {
   margin-bottom: var(--small-margin-bottom);
 }
 
-.auth-title {
+.login-title {
   margin-bottom: var(--medium-margin-bottom);
 }
 
-.auth-button {
+.login-button {
   margin-bottom: var(--medium-margin-bottom);
 }

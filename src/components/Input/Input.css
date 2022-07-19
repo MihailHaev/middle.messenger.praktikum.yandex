@@ -1,22 +1,9 @@
-.field {
-  position: relative;
+.input {
+  display: block;
   width: 100%;
-  font-size: 15px;
-
-  &__error {
-    position: absolute;
-    color: var(--error-color);
-    left: 16px;
-    font-size: 12px;
-  }
-
-  .input {
-    display: block;
-    width: 100%;
-    height: 52px;
-    padding: 17px;
-    background-color: var(--white);
-    border: var(--main-black) solid 2px;
-    color: var(--main-black);
-  }
+  height: 52px;
+  padding: 17px;
+  background-color: var(--white);
+  border: var(--main-black) solid 2px;
+  color: var(--main-black);
 }
