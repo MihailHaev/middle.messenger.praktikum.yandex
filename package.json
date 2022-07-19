@@ -80,10 +80,5 @@
     "fs": false,
     "path": false,
     "os": false
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm-run-all --parallel check:* && git add ."
-    }
   }
 }
