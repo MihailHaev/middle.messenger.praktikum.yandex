@@ -26,6 +26,7 @@ module.exports = {
     extensions: ['.ts', '.js', '.json', '.css'],
     alias: {
       'handlebars': 'handlebars/dist/handlebars.js',
+      '@': getPath('src'),
     },
     fallback: {
       'fs': false,

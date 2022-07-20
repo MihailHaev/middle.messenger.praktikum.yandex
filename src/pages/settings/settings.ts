@@ -1,9 +1,10 @@
-import { Block } from '../../modules';
-import { getInputsData, InputCreateData } from '../../utils';
-import { ChangedUserProfileRequestData, ChangedUserPasswordRequestData } from '../../api';
+import { Block } from '@/modules';
+import { getInputsData, InputCreateData } from '@/utils';
+import { ChangedUserProfileRequestData, ChangedUserPasswordRequestData } from '@/api';
+import { changeProfile, changeAvatar, changePassword } from '@/services';
+import { routes } from '@/router';
+
 import { profileInputs, avatarInput, passwordInputs } from './settingsInputs';
-import { changeProfile, changeAvatar, changePassword } from '../../services';
-import { routes } from '../../router';
 
 import './settings.css';
 

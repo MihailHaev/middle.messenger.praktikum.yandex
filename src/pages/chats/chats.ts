@@ -1,7 +1,7 @@
-import { Block } from '../../modules';
-import { VALUE_VALIDATOR_TYPES, getInputsData, connect } from '../../utils';
-import { logout, getChats, createChat, deleteChat } from '../../services';
-import { routes } from '../../router';
+import { Block } from '@/modules';
+import { VALUE_VALIDATOR_TYPES, getInputsData, connect } from '@/utils';
+import { logout, getChats, createChat, deleteChat } from '@/services';
+import { routes } from '@/router';
 
 import './chats.css';
 

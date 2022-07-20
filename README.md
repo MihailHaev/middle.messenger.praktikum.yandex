@@ -1,10 +1,12 @@
-## Netlify
+## Приложение
 
-- [Домен](https://mellifluous-dodol-c108e6.netlify.app/)
+- [Netlify](https://mellifluous-dodol-c108e6.netlify.app/)
+- [Heroku](https://quiet-spire-56589.herokuapp.com/)
 
 ## Команды
 
-- `npm start` - сборка билда и после запуск express сервера
+- `npm run deps` - установка зависимостей
+- `npm start` - запуск вебпак девсервера
 - `npm run dev` - запуск локальной разработки
 - `npm server` - запуск express сервера
 - `npm run build` - сборка билда

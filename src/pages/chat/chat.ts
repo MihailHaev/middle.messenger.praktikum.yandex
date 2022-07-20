@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { Block } from '../../modules';
-import { VALUE_VALIDATOR_TYPES, getInputsData, connect } from '../../utils';
+import { Block } from '@/modules';
+import { VALUE_VALIDATOR_TYPES, getInputsData, connect } from '@/utils';
 import {
   searchUsers,
   removeUsersFromChat,
@@ -10,8 +10,8 @@ import {
   getChatToken,
   startMessanger,
   sendMessage,
-} from '../../services';
-import { routes } from '../../router';
+} from '@/services';
+import { routes } from '@/router';
 
 import './chat.css';
 

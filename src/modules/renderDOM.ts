@@ -2,8 +2,8 @@ import { Block } from './Block';
 
 let currentBlock: Nullable<Block> = null;
 
-export function renderDOM(block: Block, selector: string) {
-  const root = document.querySelector(selector);
+export function renderDOM(block: Block) {
+  const root = document.querySelector('#app');
 
   currentBlock?.componentDidUnmount();
   root!.innerHTML = '';

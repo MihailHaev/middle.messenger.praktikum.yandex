@@ -1,5 +1,5 @@
-import { Block } from '../../modules';
-import { formateTime } from '../../utils';
+import { Block } from '@/modules';
+import { formateTime } from '@/utils';
 
 import './Chat.css';
 

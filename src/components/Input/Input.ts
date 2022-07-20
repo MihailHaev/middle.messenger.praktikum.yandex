@@ -1,4 +1,4 @@
-import { Block } from '../../modules';
+import { Block } from '@/modules';
 
 import './Input.css';
 

@@ -28,5 +28,12 @@
     "no-promise-executor-return": 0,
     "import/no-cycle": 0,
     "default-param-last": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack/base.config.js"
+      }
+    }
   }
 }
