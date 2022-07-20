@@ -3,5 +3,6 @@ WORKDIR /var/www
 COPY package*.json ./
 RUN npm install
 COPY . .
+RUN npm run build
 EXPOSE $PORT
-CMD npm run build && npm run server
+CMD npm run server
