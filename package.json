@@ -7,7 +7,6 @@
     "start": "webpack serve --config webpack/dev.config.js",
     "server": "node server.js",
     "build": "webpack --config webpack/prod.config.js",
-    "start:dev:server": "webpack-dev-server --mode development --open",
     "lint:fix": "npm-run-all --parallel eslint:fix stylelint:fix",
     "eslint:fix": "eslint --ext .ts,.js ./ --fix",
     "stylelint:fix": "stylelint --fix ./**/*.css",
