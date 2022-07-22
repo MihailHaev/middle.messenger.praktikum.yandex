@@ -1,8 +1,7 @@
 import Handlebars, { HelperOptions } from 'handlebars';
 import { Block, BlockClass } from './Block';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function registerComponent<Props = any>(Component: BlockClass<Props>) {
+function registerComponent<Props extends PlainObject = PlainObject>(Component: BlockClass<Props>) {
   Handlebars.registerHelper(
     Component.componentName as string,
     // eslint-disable-next-line func-names
@@ -36,7 +35,7 @@ function registerComponent<Props = any>(Component: BlockClass<Props>) {
   );
 }
 
-export const registerComponents = (Сomponents: { [key: string]: unknown }) => {
+export const registerComponents = (Сomponents: PlainObject) => {
   Object.keys(Сomponents).forEach((componentKey) => {
     const Сomponent = Сomponents[componentKey];
 

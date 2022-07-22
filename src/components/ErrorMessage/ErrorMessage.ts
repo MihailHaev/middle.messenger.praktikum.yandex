@@ -3,11 +3,12 @@ import { Block } from '@/modules/Block';
 import './ErrorMessage.css';
 
 interface ErrorMessageProps {
+  [key: string]: string;
   code: string;
   text: string;
 }
 
-export class ErrorMessage extends Block {
+export class ErrorMessage extends Block<ErrorMessageProps> {
   constructor(props: ErrorMessageProps) {
     super(props);
   }

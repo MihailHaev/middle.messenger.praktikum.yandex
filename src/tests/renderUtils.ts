@@ -4,13 +4,13 @@ import * as components from '../components';
 import { initRouter } from '../router';
 import { sleep } from '../utils';
 
-type RenderBlockParams<T> = {
+type RenderBlockParams<T extends PlainObject = PlainObject> = {
   Block: BlockClass<T>;
   props: T;
   state?: Partial<AppState>;
 };
 
-export async function renderBlock<T extends Record<string, unknown>>({
+export async function renderBlock<T extends PlainObject = PlainObject>({
   Block,
   props,
   state = defaultState,
@@ -25,7 +25,7 @@ export async function renderBlock<T extends Record<string, unknown>>({
 
   document.body.innerHTML = '<div id="app"></div>';
 
-  renderDOM(new Block(props as T));
+  renderDOM(new Block(props));
 
   initRouter(router, store);
 

@@ -5,9 +5,9 @@ import {
   ChatsRequestData,
   ChatUsersRequestData,
   ChangedChatUsersRequestData,
-} from '../api';
-import type { Dispatch } from '../modules';
-import type { PlainObject } from '../utils';
+} from '@/api';
+import { consoleLog } from '@/utils';
+import type { Dispatch } from '@/modules';
 
 export const getChats = async (
   dispatch: Dispatch<PlainObject>,
@@ -110,8 +110,7 @@ export const getNewMessagesChatCount = async (
   try {
     const response = await chatsAPI.getChatNewMessagesCount(action);
 
-    // eslint-disable-next-line no-console
-    console.log('response: ', response);
+    consoleLog('response: ', response);
   } catch (err) {}
 
   dispatch({ isLoading: false });
@@ -132,8 +131,7 @@ export const changeChatAvatar = async (
       return;
     }
 
-    // eslint-disable-next-line no-console
-    console.log('response: ', response);
+    consoleLog('response: ', response);
   } catch (err) {}
 
   dispatch({ isLoading: false });
@@ -199,8 +197,7 @@ export const getChatToken = async (
 
     dispatch({ isLoading: false, chatToken: token });
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log('err: ', err);
+    consoleLog('err: ', err);
     dispatch({ isLoading: false });
   }
 };

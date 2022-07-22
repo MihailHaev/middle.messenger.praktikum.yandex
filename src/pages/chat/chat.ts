@@ -17,13 +17,31 @@ import './chat.css';
 
 let tokenGettedChatId: Nullable<number> = null;
 let messangerStartedChatId: Nullable<number> = null;
-let lastChatToken: Nullable<number> = null;
+let lastChatToken: NullOrString = null;
 
-export class ChatPageDefault extends Block {
+type ChatMessage = {
+  content: string;
+  timestamp: number;
+  isRead: boolean;
+  isPersonal: boolean;
+};
+
+type ChatProps = {
+  isLoading: boolean;
+  isUserAdd: boolean;
+  currentRenderUsers: Nullable<User[]>;
+  user: Nullable<User>;
+  messages: Nullable<ChatMessage[]>;
+  usersCount: Nullable<number>;
+  chat: Nullable<Chat>;
+  chatTitle: NullOrString;
+  token: NullOrString;
+};
+
+export class ChatPageDefault extends Block<ChatProps> {
   static componentName = `Chat Page`;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(props: any) {
+  constructor(props: ChatProps) {
     const chatId = Number(window.router.getHash());
     const chat = props.chat as Nullable<Chat>;
 
@@ -35,26 +53,25 @@ export class ChatPageDefault extends Block {
 
     super({ ...props });
 
-    this.state = {
-      ...this.state,
+    this.setState({
       handleUserChatClick: this.handleUserChatClick,
       handleClearSearch: this.handleClearSearch,
       handleSendMessage: this.handleSendMessage,
       handleLeaveChat: this.handleLeaveChat,
       handleSearch: this.handleSearch,
-    };
+    });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  componentDidUpdate(_oldProps: any, newProps: any): boolean {
+  componentDidUpdate(_oldProps: ChatProps, newProps: ChatProps): boolean {
     const userId = newProps.user?.id;
     const chatId = newProps.chat?.id;
+    const isChatAndUser = userId && chatId;
     const { token } = newProps;
 
-    if (userId && chatId && tokenGettedChatId !== chatId) {
+    if (isChatAndUser && tokenGettedChatId !== chatId) {
       tokenGettedChatId = chatId;
       window.store.dispatch(getChatToken, { userId, chatId });
-    } else if (userId && chatId && token !== lastChatToken && messangerStartedChatId !== chatId) {
+    } else if (isChatAndUser && token !== lastChatToken && messangerStartedChatId !== chatId) {
       messangerStartedChatId = chatId;
       lastChatToken = token;
       window.store.dispatch(startMessanger);
@@ -64,6 +81,9 @@ export class ChatPageDefault extends Block {
 
   handleUserChatClick = (id: number) => {
     const { isUserAdd, chat } = this.props;
+    if (!chat) {
+      return;
+    }
     let userManupulation = null;
     if (isUserAdd) {
       userManupulation = addUsersToChat;
@@ -89,6 +109,10 @@ export class ChatPageDefault extends Block {
 
   handleLeaveChat = () => {
     const { chat, user } = this.props;
+    if (!chat || !user) {
+      return;
+    }
+
     window.store.dispatch(removeUsersFromChat, { chatId: chat.id, users: [user.id] });
   };
 
@@ -153,7 +177,7 @@ export class ChatPageDefault extends Block {
   }
 }
 
-const mapStateToProps = (state: AppState) => {
+const mapStateToProps = (state: AppState): ChatProps => {
   const { chatUsers } = state;
   const searchedUsers = state.searchedUsers?.filter(
     ({ id }) => !chatUsers?.some(({ id: chatUserId }) => chatUserId === id),
@@ -179,4 +203,4 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-export const ChatPage = connect(ChatPageDefault, mapStateToProps);
+export const ChatPage = connect<ChatProps>(ChatPageDefault, mapStateToProps);

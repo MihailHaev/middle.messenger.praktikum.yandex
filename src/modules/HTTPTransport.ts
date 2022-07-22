@@ -17,7 +17,7 @@ type Options = {
   method?: Methods;
   credentials?: string;
   mode?: string;
-  data?: Record<string, unknown> | XMLHttpRequestBodyInit;
+  data?: PlainObject | XMLHttpRequestBodyInit;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

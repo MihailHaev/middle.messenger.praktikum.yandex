@@ -5,22 +5,25 @@ import { routes } from '@/router';
 
 import './chats.css';
 
-export class ChatsPageDefault extends Block {
+type ChatsPageProps = {
+  isLoading: boolean;
+  chats: Nullable<Chat[]>;
+};
+
+export class ChatsPageDefault extends Block<ChatsPageProps> {
   static componentName = 'Chats Page';
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(props: any) {
+  constructor(props: ChatsPageProps) {
     window.store.dispatch(getChats);
 
-    super({ ...props });
+    super(props);
 
-    this.state = {
-      ...this.state,
+    this.setState({
       handleLogoutClick: this.handleLogoutClick,
       handleChatClick: this.handleChatClick,
       handleAddChat: this.handleAddChat,
       handleRemoveChat: this.handleRemoveChat,
-    };
+    });
   }
 
   handleLogoutClick = () => {
@@ -76,4 +79,4 @@ const mapStateToProps = (state: AppState) => ({
   chats: state.chats,
 });
 
-export const ChatsPage = connect(ChatsPageDefault, mapStateToProps);
+export const ChatsPage = connect<ChatsPageProps>(ChatsPageDefault, mapStateToProps);

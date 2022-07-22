@@ -1,19 +1,13 @@
-import { merge, isEqual, cloneDeep, PlainObject } from '@/utils';
+import { merge, isEqual, cloneDeep } from '@/utils';
 import { EventBus } from './EventBus';
 
 export type Dispatch<State> = (
   // eslint-disable-next-line no-use-before-define
   nextStateOrAction: Partial<State> | Action<State>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload?: any,
+  payload?: unknown,
 ) => void;
 
-export type Action<State> = (
-  dispatch: Dispatch<State>,
-  state: State,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload: any,
-) => void;
+export type Action<State> = (dispatch: Dispatch<State>, state: State, payload: unknown) => void;
 
 export class Store<State extends PlainObject> extends EventBus {
   private state: State = {} as State;
@@ -36,7 +30,7 @@ export class Store<State extends PlainObject> extends EventBus {
 
     const prevState = cloneDeep(this.state);
 
-    this.state = merge(prevState, nextState) as State;
+    this.state = nextState;
 
     this.emit('changed', prevState, nextState);
   }
