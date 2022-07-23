@@ -7,22 +7,31 @@ import { inputs } from './loginInputs';
 
 import './login.css';
 
-export class LoginPageDefault extends Block {
+type LoginProps = {
+  isLoading: boolean;
+};
+
+export class LoginPageDefault extends Block<LoginProps> {
   static componentName = 'Login Page';
 
-  constructor() {
-    const handleClick = () => {
-      const loginData = getInputsData(inputs) as LoginRequestData | null;
+  constructor(props: LoginProps) {
+    super(props);
 
-      if (!loginData) {
-        return;
-      }
-
-      window.store.dispatch(login, loginData);
-    };
-
-    super({ inputs, handleClick });
+    this.setState({
+      inputs,
+      handleClick: this.handleClick,
+    });
   }
+
+  handleClick = () => {
+    const loginData = getInputsData(inputs) as LoginRequestData | null;
+
+    if (!loginData) {
+      return;
+    }
+
+    window.store.dispatch(login, loginData);
+  };
 
   render() {
     return `
@@ -44,4 +53,4 @@ const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading,
 });
 
-export const LoginPage = connect(LoginPageDefault, mapStateToProps);
+export const LoginPage = connect<LoginProps>(LoginPageDefault, mapStateToProps);

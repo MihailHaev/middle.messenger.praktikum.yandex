@@ -36,6 +36,7 @@ type ChatProps = {
   chat: Nullable<Chat>;
   chatTitle: NullOrString;
   token: NullOrString;
+  isMessagesLoading: boolean;
 };
 
 export class ChatPageDefault extends Block<ChatProps> {
@@ -160,6 +161,7 @@ export class ChatPageDefault extends Block<ChatProps> {
         </div>
         <div class="messages-side__chat-inner">
           <div class="messages">
+            {{#if isMessagesLoading}}{{{Loading  isLoading=isMessagesLoading }}}{{/if}}
             {{#each messages}}
               {{#with this}}
                 {{{Message content="{{content}}" isPersonal=isPersonal timestamp=timestamp}}}
@@ -200,6 +202,7 @@ const mapStateToProps = (state: AppState): ChatProps => {
     chat: state.chat,
     chatTitle: state.chat?.title,
     token: state.chatToken,
+    isMessagesLoading: state.isMessagesLoading,
   };
 };
 

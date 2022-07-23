@@ -43,7 +43,7 @@ export class WebSocketMessanger {
       data = [data];
     }
     const { messages } = window.store.getState();
-    window.store.dispatch({ messages: [...(messages || []), ...data] });
+    window.store.dispatch({ messages: [...(messages || []), ...data], isMessagesLoading: false });
   }
 
   onError(error: Event): void {

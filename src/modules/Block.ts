@@ -34,7 +34,7 @@ export class Block<P extends PlainObject = PlainObject> {
 
   public static componentName?: string;
 
-  public constructor(props: P, isInitInChild?: boolean) {
+  public constructor(props: P) {
     const eventBus = new EventBus<Events>();
 
     this.getStateFromProps(props);
@@ -46,9 +46,7 @@ export class Block<P extends PlainObject = PlainObject> {
 
     this._registerEvents(eventBus);
 
-    if (!isInitInChild) {
-      eventBus.emit(Block.EVENTS.INIT);
-    }
+    eventBus.emit(Block.EVENTS.INIT);
   }
 
   private _registerEvents(eventBus: EventBus<Events>) {

@@ -73,6 +73,7 @@ declare global {
     addUsersToChatFormError: NullOrString;
     removeUsersFromChatFormError: NullOrString;
     chatToken: NullOrString;
+    isMessagesLoading: boolean;
   };
 
   interface Window {

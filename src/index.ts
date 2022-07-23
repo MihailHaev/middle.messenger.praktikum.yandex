@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * Инициализируем роутер
    */
 
-  renderDOM(new LoginPage({}));
+  renderDOM(new LoginPage({ isLoading: true }));
   initRouter(router, store);
 
   /**
