@@ -1,6 +1,5 @@
 import { WebSocketMessanger } from '../api';
 import type { Dispatch } from '../modules';
-import type { PlainObject } from '../utils';
 
 let messanger: Nullable<WebSocketMessanger> = null;
 

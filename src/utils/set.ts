@@ -1,4 +1,4 @@
-import { isObject, PlainObject } from './isObject';
+import { isObject } from './isObject';
 
 export const set = (object: PlainObject, path: unknown, value: unknown): PlainObject | unknown => {
   if (path instanceof String || typeof path !== 'string') throw new Error('path must be string');

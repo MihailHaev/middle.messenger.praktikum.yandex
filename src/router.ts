@@ -38,7 +38,7 @@ export const routes: Record<Pages, Route> = {
 
 let isFirstAfterAuthChecked = true;
 
-export function initRouter(router: Router, store: Store) {
+export function initRouter(router: Router, store: Store<AppState>) {
   Object.entries(routes).forEach(([page, route]) => {
     router.use(route.path, () => {
       const { isAuthChecked } = store.getState();
@@ -97,7 +97,7 @@ export function initRouter(router: Router, store: Store) {
 
     if (prevState.page !== nextState.page && nextState.page != null) {
       const Page = getPageComponent(nextState.page);
-      renderDOM(new Page({}), '#app');
+      renderDOM(new Page({}));
       document.title = `App / ${Page.componentName}`;
     }
   });

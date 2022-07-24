@@ -1,5 +1,5 @@
-import { InputTypes } from '../../components';
-import { VALUE_VALIDATOR_TYPES, InputCreateData } from '../../utils';
+import { InputTypes } from '@/components';
+import { VALUE_VALIDATOR_TYPES, InputCreateData } from '@/utils';
 
 export const profileInputs: InputCreateData[] = [
   {

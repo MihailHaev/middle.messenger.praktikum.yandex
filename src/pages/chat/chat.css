@@ -18,6 +18,7 @@
   }
 
   .messages {
+    position: relative;
     padding: var(--small-margin-bottom);
   }
 }

@@ -19,4 +19,5 @@ export const defaultState: AppState = {
   addUsersToChatFormError: null,
   removeUsersFromChatFormError: null,
   chatToken: null,
+  isMessagesLoading: true,
 };

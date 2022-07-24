@@ -12,7 +12,7 @@ export function range(start: number, end: number, step: number, isRight: boolean
 
   const length = Math.abs((end - start) / step);
 
-  const result = new Array(length).fill('').map((a, i) => {
+  const result = new Array(length).fill('').map((_a, i) => {
     if (!i) return start;
     start += step;
     return start;

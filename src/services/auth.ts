@@ -1,7 +1,6 @@
 import { authAPI, apiHasError, LoginRequestData, RegisteredRequestData } from '../api';
 import type { Dispatch } from '../modules';
 import { routes } from '../router';
-import type { PlainObject } from '../utils';
 
 export const logout = async (dispatch: Dispatch<PlainObject>) => {
   dispatch({ isLoading: true });

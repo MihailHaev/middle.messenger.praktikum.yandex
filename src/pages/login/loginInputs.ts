@@ -1,5 +1,5 @@
-import { InputTypes } from '../../components';
-import { VALUE_VALIDATOR_TYPES } from '../../utils';
+import { InputTypes } from '@/components';
+import { VALUE_VALIDATOR_TYPES } from '@/utils';
 
 export const inputs = [
   {

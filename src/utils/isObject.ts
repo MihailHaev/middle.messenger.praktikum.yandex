@@ -1,7 +1,3 @@
-export type PlainObject<T = unknown> = {
-  [key in string]: T;
-};
-
 export const isObject = (value: unknown): value is PlainObject => {
   return (
     typeof value === 'object' &&

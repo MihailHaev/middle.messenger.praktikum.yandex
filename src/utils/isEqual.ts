@@ -1,5 +1,5 @@
 /* eslint-disable no-continue */
-import { isObject, PlainObject, isArrayOrObject } from './isObject';
+import { isObject, isArrayOrObject } from './isObject';
 
 export const isEqual = (lhs: PlainObject, rhs: PlainObject): boolean => {
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {

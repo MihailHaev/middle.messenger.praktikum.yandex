@@ -3,9 +3,9 @@ import {
   ChangedUserProfileRequestData,
   ChangedUserPasswordRequestData,
   apiHasError,
-} from '../api';
-import type { Dispatch } from '../modules';
-import type { PlainObject } from '../utils';
+} from '@/api';
+import { consoleLog } from '@/utils';
+import type { Dispatch } from '@/modules';
 
 export const changeProfile = async (
   dispatch: Dispatch<PlainObject>,
@@ -67,11 +67,9 @@ export const getUser = async (
   try {
     const response = await userAPI.getUser(action);
 
-    // eslint-disable-next-line no-console
-    console.log('response: ', response);
+    consoleLog('response: ', response);
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log('err: ', err);
+    consoleLog('err: ', err);
   }
 
   dispatch({ isLoading: false });

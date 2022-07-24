@@ -24,7 +24,7 @@ export class Router {
     return this;
   }
 
-  private _onRoute(pathname: string) {
+  _onRoute(pathname: string) {
     this._getRouteCallback(pathname)?.();
   }
 

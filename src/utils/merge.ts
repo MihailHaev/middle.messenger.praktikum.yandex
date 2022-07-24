@@ -1,4 +1,4 @@
-import { isObject, PlainObject } from './isObject';
+import { isObject } from './isObject';
 
 export const merge = (lhs: PlainObject, rhs: PlainObject): PlainObject => {
   return Object.entries(lhs).reduce(

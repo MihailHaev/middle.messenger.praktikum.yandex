@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime';
+
 import { Router, Store, registerComponents, renderDOM } from './modules';
 import { defaultState } from './store';
 import { initRouter } from './router';
@@ -7,10 +9,12 @@ import * as Сomponents from './components';
 
 import './app.css';
 
+require('babel-core/register');
+
 registerComponents(Сomponents);
 
 document.addEventListener('DOMContentLoaded', () => {
-  const store = new Store(defaultState);
+  const store = new Store<AppState>(defaultState);
   const router = new Router();
 
   /**
@@ -24,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * Инициализируем роутер
    */
 
-  renderDOM(new LoginPage({}), '#app');
+  renderDOM(new LoginPage({ isLoading: true }));
   initRouter(router, store);
 
   /**

@@ -9,3 +9,5 @@ export * from './merge';
 export * from './cloneDeep';
 export * from './isObject';
 export * from './connect';
+export * from './sleep';
+export * from './consoleLog';

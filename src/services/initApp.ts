@@ -1,6 +1,6 @@
-import { authAPI, apiHasError } from '../api';
-import { Dispatch } from '../modules';
-import { PlainObject } from '../utils';
+import { authAPI, apiHasError } from '@/api';
+import { consoleLog } from '@/utils';
+import type { Dispatch } from '@/modules';
 
 export async function initApp(dispatch: Dispatch<PlainObject>) {
   try {
@@ -11,8 +11,7 @@ export async function initApp(dispatch: Dispatch<PlainObject>) {
 
     dispatch({ user: response });
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
+    consoleLog(err);
   } finally {
     dispatch({ isLoading: false, isAuthChecked: true });
   }

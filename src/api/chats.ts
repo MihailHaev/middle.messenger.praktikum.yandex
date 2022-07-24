@@ -1,4 +1,4 @@
-import { HTTPTransport } from '../modules';
+import { HTTPTransport } from '@/modules';
 import { APIError } from './types';
 
 export type ChatsRequestData = {

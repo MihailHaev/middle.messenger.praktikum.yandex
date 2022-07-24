@@ -1,5 +1,5 @@
-import { Block } from '../../modules/Block';
-import { formateTime } from '../../utils';
+import { Block } from '@/modules/Block';
+import { formateTime } from '@/utils';
 
 import './Message.css';
 

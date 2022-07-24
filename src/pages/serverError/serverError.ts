@@ -1,5 +1,5 @@
-import { Block } from '../../modules';
-import { routes } from '../../router';
+import { Block } from '@/modules';
+import { routes } from '@/router';
 
 import './serverError.css';
 
