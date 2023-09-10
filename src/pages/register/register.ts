@@ -1,8 +1,8 @@
-import { Block } from '../../modules';
-import { getInputsData } from '../../utils';
-import { register } from '../../services';
-import { routes } from '../../router';
-import { RegisteredRequestData } from '../../api';
+import { Block } from '@/modules';
+import { getInputsData } from '@/utils';
+import { register } from '@/services';
+import { routes } from '@/router';
+import { RegisteredRequestData } from '@/api';
 import { inputs } from './registerInputs';
 
 import './register.css';

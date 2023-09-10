@@ -3,63 +3,91 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "parcel static/index.html --no-source-maps --no-cache -p $(grep PORT .env | cut -d '=' -f2)",
+    "deps": "npm-run-all --parallel install prepare",
+    "start": "webpack serve --config webpack/dev.config.js",
     "server": "node server.js",
-    "build": "parcel build static/index.html --no-cache --public-url ./",
-    "start": "npm run build && npm run server",
-    "lint": "npm run eslint && npm run stylelint",
-    "eslint": "eslint --ext .ts,.js ./",
-    "stylelint": "stylelint ./**/*.css",
-    "lint:fix": "npm run eslint:fix && stylelint:fix",
+    "build": "webpack --config webpack/prod.config.js",
+    "lint:fix": "npm-run-all --parallel eslint:fix stylelint:fix",
     "eslint:fix": "eslint --ext .ts,.js ./ --fix",
-    "stylelint:fix": "stylelint --fix ./**/*.css"
-  },
-  "alias": {
-    "src": "./src"
+    "stylelint:fix": "stylelint --fix ./**/*.css",
+    "clean": "rimraf node_modules/",
+    "check:lint": "eslint --ext .ts,.js ./",
+    "check:stylelint": "stylelint ./**/*.css",
+    "check:test": "jest",
+    "check": "npm-run-all check:*",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@anikin/parcel-transformer-handlebars": "1.0.9",
-    "@types/chai": "4.3.1",
-    "@types/mocha": "9.1.1",
+    "@babel/core": "7.17.8",
+    "@babel/preset-env": "7.16.11",
+    "@babel/preset-typescript": "7.16.7",
+    "@types/jest": "27.5.1",
     "@types/node": "17.0.41",
     "@typescript-eslint/eslint-plugin": "5.27.1",
     "@typescript-eslint/parser": "5.27.1",
-    "chai": "4.3.6",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-stage-0": "6.24.1",
+    "css-loader": "6.7.1",
     "eslint": "8.17.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "8.5.0",
-    "eslint-import-resolver-parcel": "1.10.6",
+    "eslint-import-resolver-webpack": "0.13.2",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.30.0",
-    "mocha": "10.0.0",
-    "parcel": "2.5.0",
-    "parcel-plugin-handlebars-precompile": "1.0.2",
+    "husky": "8.0.0",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "27.5.1",
+    "npm-run-all": "4.1.5",
     "postcss": "8.4.14",
-    "postcss-modules": "4.3.1",
-    "postcss-preset-env": "7.6.0",
+    "postcss-loader": "7.0.1",
     "prettier": "2.6.2",
+    "rimraf": "3.0.2",
     "stylelint": "14.9.0",
     "stylelint-config-standard": "26.0.0",
-    "typescript": "4.7.3"
+    "ts-loader": "9.3.1",
+    "typescript": "4.7.3",
+    "webpack-cli": "4.10.0",
+    "webpack-dev-server": "4.9.3"
   },
   "dependencies": {
-    "handlebars": "4.7.7",
-    "nanoid": "4.0.0",
-    "express": "4.18.1",
+    "@testing-library/dom": "8.16.0",
+    "@testing-library/jest-dom": "5.16.4",
     "autoprefixer": "10.4.7",
-    "precss": "4.0.0"
+    "babel-core": "6.26.3",
+    "dotenv": "16.0.1",
+    "express": "4.18.1",
+    "handlebars": "4.7.7",
+    "html-webpack-plugin": "5.5.0",
+    "mini-css-extract-plugin": "2.6.1",
+    "msw": "0.44.2",
+    "nanoid": "4.0.0",
+    "precss": "4.0.0",
+    "regenerator-runtime": "0.13.9",
+    "webpack": "5.73.0",
+    "webpack-merge": "5.8.0",
+    "ts-jest": "^27.1.3"
   },
-  "prettier": {
-    "singleQuote": true,
-    "printWidth": 100,
-    "trailingComma": "all",
-    "tabWidth": 2,
-    "semi": true,
-    "quoteProps": "preserve"
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFiles": [
+      "<rootDir>/src/tests/setupEnv.ts"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/tests/setup.ts"
+    ],
+    "moduleNameMapper": {
+      "\\.(css)$": "identity-obj-proxy",
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

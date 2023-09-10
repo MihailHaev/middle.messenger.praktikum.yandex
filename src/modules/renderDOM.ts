@@ -2,11 +2,11 @@ import { Block } from './Block';
 
 let currentBlock: Nullable<Block> = null;
 
-export function renderDOM(block: Block, selector: string) {
-  const root = document.querySelector(selector);
+export function renderDOM<T extends PlainObject>(block: Block<T>) {
+  const root = document.querySelector('#app');
 
   currentBlock?.componentDidUnmount();
   root!.innerHTML = '';
   root!.appendChild(block.getContent());
-  currentBlock = block;
+  currentBlock = block as Block<PlainObject>;
 }

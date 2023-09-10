@@ -1,5 +1,5 @@
-import { Block } from '../../modules';
-import { validateValue, VALUE_VALIDATOR_TYPES } from '../../utils';
+import { Block } from '@/modules';
+import { validateValue, VALUE_VALIDATOR_TYPES } from '@/utils';
 import { InputTypes } from '../Input';
 
 import './Field.css';

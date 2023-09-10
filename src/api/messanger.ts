@@ -1,3 +1,5 @@
+import { consoleLog } from '@/utils';
+
 type Message = {
   content: string | number;
   type: string;
@@ -41,25 +43,20 @@ export class WebSocketMessanger {
       data = [data];
     }
     const { messages } = window.store.getState();
-    window.store.dispatch({ messages: [...(messages || []), ...data] });
+    window.store.dispatch({ messages: [...(messages || []), ...data], isMessagesLoading: false });
   }
 
   onError(error: Event): void {
-    // eslint-disable-next-line no-console
-    console.log('Error: ', error);
+    consoleLog('Error: ', error);
   }
 
   onClose(event: CloseEvent): void {
     if (event.wasClean) {
-      // eslint-disable-next-line no-console
-      console.log('Connection closed');
+      consoleLog('Connection closed');
     } else {
-      // eslint-disable-next-line no-console
-      console.log('Connection interrupted');
+      consoleLog('Connection interrupted');
     }
-    // eslint-disable-next-line no-console
-    console.log(`Event code: ${event.code}`);
-    // eslint-disable-next-line no-console
-    console.log(`Event reason: ${event.reason}`);
+    consoleLog(`Event code: ${event.code}`);
+    consoleLog(`Event reason: ${event.reason}`);
   }
 }

@@ -1,24 +1,16 @@
+/* eslint-disable no-use-before-define */
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import { EventBus } from './EventBus';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface BlockMeta<P = any> {
-  props: P;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface BlockClass<Props = any> {
-  // eslint-disable-next-line no-use-before-define
-  new (props: Props): Block;
+export interface BlockClass<Props extends PlainObject = PlainObject> {
+  new (props: Props): Block<Props>;
   componentName?: string;
 }
 
-// eslint-disable-next-line no-use-before-define
 type Events = Values<typeof Block.EVENTS>;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class Block<P = any> {
+export class Block<P extends PlainObject = PlainObject> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -28,21 +20,16 @@ export class Block<P = any> {
 
   public id = nanoid(6);
 
-  private readonly _meta: BlockMeta;
-
   protected _element: Nullable<HTMLElement> = null;
 
   protected readonly props: P;
 
-  // eslint-disable-next-line no-use-before-define
   protected children: { [id: string]: Block } = {};
 
   eventBus: () => EventBus<Events>;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected state: any = {};
+  protected state: PlainObject = {};
 
-  // eslint-disable-next-line no-use-before-define
   protected refs: { [key: string]: Block } = {};
 
   public static componentName?: string;
@@ -50,20 +37,16 @@ export class Block<P = any> {
   public constructor(props: P) {
     const eventBus = new EventBus<Events>();
 
-    this._meta = {
-      props,
-    };
-
     this.getStateFromProps(props);
 
-    this.props = this._makePropsProxy(props || ({} as P));
-    this.state = this._makePropsProxy(this.state);
+    this.props = this._makeProxy(props || {}) as P;
+    this.state = this._makeProxy(this.state);
 
     this.eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
 
-    eventBus.emit(Block.EVENTS.INIT, this.props);
+    eventBus.emit(Block.EVENTS.INIT);
   }
 
   private _registerEvents(eventBus: EventBus<Events>) {
@@ -77,40 +60,37 @@ export class Block<P = any> {
     this._element = document.createElement('div');
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
   protected getStateFromProps(props: P): void {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { state = {} } = props as any;
+    const { state = {} } = props as PlainObject;
 
-    this.state = state;
+    this.state = state as PlainObject;
   }
 
   init() {
     this._createResources();
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   private _componentDidMount(props: P) {
     this.componentDidMount(props);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-  componentDidMount(props: P) {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  componentDidMount(_props: P) {}
 
   private _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
     }
-    this._render();
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-  componentDidUpdate(oldProps: P, newProps: P) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  componentDidUpdate(_oldProps: P, _newProps: P) {
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
   componentDidUnmount() {}
 
   setProps = (nextProps: P) => {
@@ -121,8 +101,7 @@ export class Block<P = any> {
     Object.assign(this.props, nextProps);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setState = (nextState: any) => {
+  setState = (nextState: PlainObject) => {
     if (!nextState) {
       return;
     }
@@ -163,13 +142,13 @@ export class Block<P = any> {
     return this.element!;
   }
 
-  private _makePropsProxy(props: P): P {
+  private _makeProxy(props: PlainObject): PlainObject {
     return new Proxy(props as unknown as object, {
-      get(target: Record<string, unknown>, prop: string) {
+      get(target: PlainObject, prop: string) {
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set: (target: Record<string, unknown>, prop: string, value: unknown) => {
+      set: (target: PlainObject, prop: string, value: unknown) => {
         // eslint-disable-next-line no-param-reassign
         target[prop] = value;
 
@@ -179,12 +158,11 @@ export class Block<P = any> {
       deleteProperty() {
         throw new Error('Нет доступа');
       },
-    }) as unknown as P;
+    }) as PlainObject;
   }
 
   private _removeEvents() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { events } = this.props as any;
+    const { events } = this.props as PlainObject;
 
     if (!events || !this._element) {
       return;
@@ -196,8 +174,7 @@ export class Block<P = any> {
   }
 
   private _addEvents() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { events } = this.props as any;
+    const { events } = this.props as PlainObject;
 
     if (!events) {
       return;
@@ -258,13 +235,5 @@ export class Block<P = any> {
      * Возвращаем фрагмент
      */
     return fragment.content;
-  }
-
-  show() {
-    this.getContent().style.display = 'block';
-  }
-
-  hide() {
-    this.getContent().style.display = 'none';
   }
 }

@@ -1,12 +1,14 @@
 import { Pages } from '../pages';
 
 declare global {
-  export type Nullable<T> = T | null;
+  export type Nullable<T> = T | null | undefined;
 
   export type NullOrString = Nullable<string>;
 
-  export type Keys<T extends Record<string, unknown>> = keyof T;
-  export type Values<T extends Record<string, unknown>> = T[Keys<T>];
+  export type PlainObject<T = unknown> = Record<string, T>;
+
+  export type Keys<T extends PlainObject> = keyof T;
+  export type Values<T extends PlainObject> = T[Keys<T>];
 
   export type User = {
     id: number;
@@ -71,6 +73,7 @@ declare global {
     addUsersToChatFormError: NullOrString;
     removeUsersFromChatFormError: NullOrString;
     chatToken: NullOrString;
+    isMessagesLoading: boolean;
   };
 
   interface Window {

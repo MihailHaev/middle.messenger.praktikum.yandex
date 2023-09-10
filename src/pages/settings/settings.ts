@@ -1,9 +1,10 @@
-import { Block } from '../../modules';
-import { getInputsData, InputCreateData } from '../../utils';
-import { ChangedUserProfileRequestData, ChangedUserPasswordRequestData } from '../../api';
+import { Block } from '@/modules';
+import { getInputsData, InputCreateData } from '@/utils';
+import { ChangedUserProfileRequestData, ChangedUserPasswordRequestData } from '@/api';
+import { changeProfile, changeAvatar, changePassword } from '@/services';
+import { routes } from '@/router';
+
 import { profileInputs, avatarInput, passwordInputs } from './settingsInputs';
-import { changeProfile, changeAvatar, changePassword } from '../../services';
-import { routes } from '../../router';
 
 import './settings.css';
 
@@ -63,7 +64,7 @@ export class SettingsPage extends Block {
       profileInputs,
       avatarInputs: [avatarInput],
       passwordInputs,
-      userAvatar: `${process.env.IMG_ENDPOINT}${user.avatar}`,
+      userAvatar: user?.avatar && `${process.env.IMG_ENDPOINT}${user.avatar}`,
       handleChangeProfile,
       handleChangeAvatar,
       handleChangePassword,
@@ -74,7 +75,7 @@ export class SettingsPage extends Block {
     return `
       <div class="page-wrapper">
         {{{Title text="Настройки" className="settings-title"}}}
-        <img alt="avatar" src="{{userAvatar}}" />
+        {{#if userAvatar}}<img alt="avatar" src="{{userAvatar}}" />{{/if}}
         {{#each avatarInputs}}
           {{#with this}}
             {{{Field placeholder="{{placeholder}}" type="{{type}}" className="settings-input" validationRule="{{validationRule}}" id="{{id}}" value="{{value}}"}}}
